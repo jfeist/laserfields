@@ -1,0 +1,5 @@
+# Mac OS X folder information file
+.DS_Store
+
+# emacs temp files
+*~
