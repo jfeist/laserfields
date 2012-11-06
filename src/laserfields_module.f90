@@ -9,69 +9,120 @@ module laserfields_module
   real(dp), parameter :: gaussian_time_cutoff_fwhm = 3.5d0
   integer, parameter :: minimum_steps_per_laser_period = 75
 
+  !> Datatype describing a single laserfield, should usually be created through make_laserfield routine
   type :: laserfield
-     ! this describes laser fields of various forms
+     !> The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'constant', or 'readin'
+
+     !> - gaussianF, gaussianI: Gaussian pulses with form exp(-z t<sup>2</sup>) (see laserfield%duration doc for meaning of z)
+     !> - sin2: sin<sup>2</sup> envelope
+     !> - sin_exp: sin<sup>form_exponent</sup> envelope
+     !> - linear: linear rampon, then constant amplitude, then linear rampoff
+     !> - linear2: same as linear, but with sin<sup>2</sup> rampon/off
+     !> - constant: same as linear, but without an enclosed oscillation
+     !> - readin: read numerical data from an input file and interpolate
      character(len=30) :: form = ''
+     !> Only for form=='readin': file to read numerical data from
      character(len=200) :: datafile = ''
+     !> If .true., describe the vector potential A(t) with the given envelope - E(t) will contain derivative terms.
+     !> This is often useful to make sure that A(-infty) = A(infty), a requirement for propagating fields.
      logical :: is_vecpot = .false.
      ! these are the input laserfields.in "convenient" units - W/cm^2, nm, as
+     !> peak intensity in W/cm<sup>2</sup>
      real(dp) :: intensity_Wcm2 = 0.d0
+     !> carrier wavelength in nm
      real(dp) :: lambda_nm = 0.d0
+     !> peak time of envelope in as
      real(dp) :: peak_time_as = 0.d0
+     !> duration in as - depending on the value of form, this has different meanings!
+
+     !> - gaussianF: FWHM of the field envelope
+     !> - gaussianI: FWHM of the intensity envelope
+     !> - sin2, sin_exp: total duration of pulse
+     !> - linear, linear2, constant: time during which pulse has peak amplitude
+     !> - readin: ignored
      real(dp) :: duration_as = 0.d0
+     !> Only relevant for form linear, linear2, and constant: duration of rampon/rampoff at beginning and end of pulse, in as
      real(dp) :: rampon_as = 0.d0
+     !> Carrier-envelope phase (CEP), in multiples of &pi;.<br> phase_pi=0 corresponds to a pulse with sin(w (t-t<sub>peak</sub>)) oscillation.
      real(dp) :: phase_pi = 0.d0
+     !> Only relevant for form sin_exp: exponent of envelope
      real(dp) :: form_exponent = 1.d0
-     real(dp) :: linear_chirp_rate_w0as = 0.d0 ! linear chirp rate is given in units of omega_0/as
+     !> linear temporal chirp rate, in units of omega_0/as
+
+     !> &omega; = &omega;<sub>0</sub> (1 + linear_chirp_rate_w0 (t-t<sub>peak</sub>))
+     !> e.g. for a value of 1.d-3, the frequency will change by &omega; over 1000 as.
+     !> Since the carrier wave should not have negative frequencies, you must take care that the chirp is not too large.
+     real(dp) :: linear_chirp_rate_w0as = 0.d0
 
      ! these are "derived" parameters that should not be entered directly. they are all in atomic units
+     !> <b>Derived</b>: peak electric field strength in a.u.
      real(dp) :: E0 = 0.d0
+     !> <b>Derived</b>: carrier angular frequency in a.u.
      real(dp) :: omega = 0.d0
+     !> <b>Derived</b>: carrier period in a.u.
      real(dp) :: TX = 0.d0
+     !> <b>Derived</b>: peak time of envelope in a.u.
      real(dp) :: peak_time = 0.d0
-     ! depending on the form, this can be FWHM (gaussian), total duration (sin^2), or time when field is at full intensity (linear{,2})
+     !> <b>Derived</b>: duration in a.u.
      real(dp) :: duration = 0.d0
-     real(dp) :: rampon = 0.d0    ! currently only used for linear{,2}
+     !> <b>Derived</b>: rampon/rampoff in a.u.
+     real(dp) :: rampon = 0.d0
 
-     ! to save the electric field and vector potential as an array for read-in fields
-     ! and numerical integration of E(t) to obtain A(t) and ZZ(t)
+     !> Numerical arrays to save the fields for interpolation for read-in fields.
+     !> also used for numerical integration of E(t) to obtain A(t) and Z(t) for is_vecpot=.false.
+     !> and numerical integration of A(t) to obtain Z(t) for is_vecpot=.true.
      real(dp), dimension(:), allocatable :: tt, ee, aa, zz
   end type laserfield
 
-  ! for now, allow at most 100 fields
+  !> Global array saving the laserfields read from parameter files and added with add_laserfield
   type(laserfield), dimension(100) :: all_laserfields
+  !> Number of laserfields in the global array all_laserfields
   integer :: n_laserfields = 0
 
+  !> Make a new type(laserfield), either from parameters or reading from a datafile
   interface make_laserfield
      module procedure make_laserfield_params
      module procedure make_laserfield_datafile
   end interface make_laserfield
   private :: make_laserfield_params, make_laserfield_datafile
+  !> Return the electric field E(t). if called with a type(laserfield) argument,
+  !> gets E(t) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_EL
      module procedure laserfields_get_EL
      module procedure lf_get_EL
   end interface
   private :: laserfields_get_EL, lf_get_EL
+  !> Return the vector potential A(t). if called with a type(laserfield) argument,
+  !> gets A(t) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_AL
      module procedure laserfields_get_AL
      module procedure lf_get_AL
   end interface
   private :: laserfields_get_AL, lf_get_AL
+  !> Return the free-space displacement Z(t) of an electron. if called with a type(laserfield) argument,
+  !> gets Z(t) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_ZL
      module procedure laserfields_get_ZL
      module procedure lf_get_ZL
   end interface
   private :: laserfields_get_ZL, lf_get_ZL
+  !> Return the fourier transform E(&omega;). if called with a type(laserfield) argument,
+  !> gets E(&omega;) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_EL_fourier_transform
      module procedure laserfields_get_EL_fourier_transform
      module procedure lf_get_EL_fourier_transform
   end interface
   private :: laserfields_get_EL_fourier_transform, lf_get_EL_fourier_transform
+  !> Return the fourier transform A(&omega;). if called with a type(laserfield) argument,
+  !> gets A(&omega;) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_AL_fourier_transform
      module procedure laserfields_get_AL_fourier_transform
      module procedure lf_get_AL_fourier_transform
   end interface
   private :: laserfields_get_AL_fourier_transform, lf_get_AL_fourier_transform
+  !> Return the fourier transform E(&omega;) as a string that can be used as a function in gnuplot.
+  !> if called with a type(laserfield) argument,
+  !> gets E(&omega;) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_EL_fourier_transform_string
      module procedure laserfields_get_EL_fourier_transform_string
      module procedure lf_get_EL_fourier_transform_string
@@ -80,6 +131,7 @@ module laserfields_module
 
 contains
   !---------------------------------------------------------------------------
+  !> add a type(laserfield) to the global list all_laserfields
   subroutine add_laserfield(lf)
     type(laserfield), intent(in) :: lf
     if (n_laserfields == size(all_laserfields)) STOP 'ERROR: added too many laser fields!'
@@ -87,6 +139,7 @@ contains
     all_laserfields(n_laserfields) = lf
   end subroutine add_laserfield
   !---------------------------------------------------------------------------
+  !> make a new type(laserfield). for the meaning of the parameter see the documentation of laserfield
   type(laserfield) function make_laserfield_params(form,intensity_Wcm2,lambda_nm,peak_time_as,&
        duration_as,rampon_as,form_exponent,phase_pi,is_vecpot,linear_chirp_rate_w0as) result(lf)
     character(len=*), intent(in) :: form
@@ -474,7 +527,7 @@ contains
        envpr = -2*trel*log( 4.d0)/lf%duration**2 * env
     case('linear','constant')
        ! "linear" is a field with constant intensity for lf%duration, and linear rampon/rampoff of duration lf%rampon at the beginning and end
-       ! "constant" is the envelop same, but without an enclosed oscillation.
+       ! "constant" has the same envelope, but without an enclosed oscillation.
        if (abs(trel) < lf%duration/2) then
           env   = 1.d0
           envpr = 0.d0

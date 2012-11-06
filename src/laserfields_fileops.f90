@@ -4,13 +4,21 @@
 module laserfields_fileops
   use nrtype
   implicit none
-  private
   public :: laserfields_read_parameters, laserfields_write_parameters
+  private :: read_laserfield
+
+  !> read laserfield parameters and put into global all_laser_fields array
+
+  !> can read from either a file or a unit
   interface laserfields_read_parameters
      module procedure read_parameters_from_file
      module procedure read_parameters_from_unit
   end interface
   private :: read_parameters_from_file, read_parameters_from_unit
+
+  !> write parameters of all laserfields in global all_laser_fields array
+
+  !> can write to either a file or a unit
   interface laserfields_write_parameters
      module procedure write_parameters_to_file
      module procedure write_parameters_to_unit

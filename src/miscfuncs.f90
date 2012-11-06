@@ -4,12 +4,15 @@
 module miscfuncs
   use nrtype
   implicit none
+
+  !> 1-dimensional polynomial interpolation
   interface interpolate
      module procedure interpolate_single
      module procedure interpolate_array
   end interface
   private interpolate_array, interpolate_single
 
+  !> convert real or complex numbers to strings that can be used in gnuplot
   interface gnuplotstring
      module procedure gnuplotstring_d
      module procedure gnuplotstring_z
@@ -17,34 +20,37 @@ module miscfuncs
   private gnuplotstring_d, gnuplotstring_z
 contains
   !----------------------------------------------------------------------
+  !> obtain the phase (=argument) of a complex number
   real(dp) pure elemental function phase(c)
     complex(dpc), intent(in) :: c
     phase = atan2(aimag(c),real(c))
   end function phase
   !---------------------------------------------------------------------------
+  !> return a complex number containing absolute value squared and phase
+  !> as real and imaginary part: {|c|<sup>2</sup>,phase(c)}
   complex(dpc) pure elemental function abs2_phase(c)
     complex(dpc), intent(in) :: c
     abs2_phase = cmplx(abs(c)**2,phase(c),dpc)
   end function abs2_phase
   !---------------------------------------------------------------------------
+  !> converts a double to a character string for gnuplot
   character(15) function gnuplotstring_d(val) result(ch)
-    ! converts a double to a character string for gnuplot
     real(dp), intent(in) :: val
     write(ch,'(sp,es15.8)') val
   end function gnuplotstring_d
   !---------------------------------------------------------------------------
+  !> converts a double complex to a character string for gnuplot
   character(33) function gnuplotstring_z(val) result(ch)
-    ! converts a double complex to a character string for gnuplot
     complex(dpc), intent(in) :: val
     write(ch,'(sp,a,es15.8,a,es15.8,a)') '{',real(val),',',aimag(val),'}'
   end function gnuplotstring_z
   !---------------------------------------------------------------------------
+  !> for a set of known values (x_old,f_old) calculate the value of f(x) at
+  !> point x_new using polynomial interpolation
   real(dp) function interpolate_single(x_old,f_old,x_new,degree) result(f_new)
-    ! for a set of known values (x_old,f_old) calculate the values of f(x) at unknown
-    ! points x_new using interpolation techniques
-    ! so far just polynomial interpolation is implemented
     real(dp), dimension(:), intent(in) :: x_old,f_old
     real(dp), intent(in) :: x_new
+    !> order of the interpolating polynomial
     integer, intent(in) :: degree
     real(dp), dimension(1) :: x_new_arr, f_new_arr
     x_new_arr(1) = x_new
@@ -52,11 +58,12 @@ contains
     f_new = f_new_arr(1)
   end function interpolate_single
   !---------------------------------------------------------------------------
+  !> for a set of known values (x_old,f_old) calculate the values of f(x) at
+  !> points x_new using polynomial interpolation
   function interpolate_array(x_old,f_old,x_new,degree) result(f_new)
-    ! for a set of known values (x_old,f_old) calculate the values of f(x) at
-    ! points x_new using polynomial interpolation
     real(dp), dimension(:), intent(in) :: x_old, f_old, x_new
     real(dp), dimension(size(x_new)) :: f_new
+    !> order of the interpolating polynomial
     integer, intent(in) :: degree
     integer :: ii, npoints_old, npoints_new, nearest_node, spoint, npoints_int
 
@@ -81,12 +88,16 @@ contains
     end do
   end function interpolate_array
   !-----------------------------------------------------------------------
-  ! lagrange polynomial interpolation, using the barycentric form (see e.g. wikipedia)
-  ! input arrays xk and yk give the points to use, x gives the point at
-  ! which to evaluate the interpolating polynomial.
+  !> lagrange polynomial interpolation, using the barycentric form (see e.g. wikipedia)
   real(dp) pure function lagrange_interpol(xk,yk,n,x) result(y)
+    !> size of xk and yk.
     integer, intent(in) :: n
-    real(dp), intent(in) :: x, xk(n), yk(n)
+    !> x-values of points to interpolate.
+    real(dp), intent(in) :: xk(n)
+    !> y-values of points to interpolate.
+    real(dp), intent(in) :: yk(n)
+    !> position at which to evaluate the interpolating polynomial.
+    real(dp), intent(in) :: x
     real(dp) :: wk(n), nom, denom, diff
     integer :: ii, jj
     do jj = 1, n
@@ -111,9 +122,12 @@ contains
     y = nom/denom
   end function lagrange_interpol
   !-----------------------------------------------------------------------
+  !> do a binary search and return index il for which xs(il) <= x <= xs(il+1)
   pure integer function binary_search(xs,x) result(il)
-    ! do a binary search to find il for which xs(il) <= x <= xs(il+1)
-    real(dp), intent(in) :: xs(:), x
+    !> input array to search, has to be sorted (either in ascending or descending order)
+    real(dp), intent(in) :: xs(:)
+    !> value to search for
+    real(dp), intent(in) :: x
     integer :: n, im, iu
     logical :: increasing
 
