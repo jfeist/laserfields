@@ -4,8 +4,11 @@
 .SUFFIXES:
 .SUFFIXES: .f90 .o .mod .a
 
+# fortran compiler to use
 FC=gfortran
+# flags to compile with
 FCFLAGS=-Wall -O3 -march=native
+# flag that tells the compiler where to put the produced module (.mod) files
 MODLOCFLAG=-J
 
 # for intel fortran:

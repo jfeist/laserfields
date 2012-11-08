@@ -11,6 +11,20 @@ If you publish work using it, please reference the web page, https://github.com/
 laserfields also includes a Fortran 95 version of the Faddeeva_w code by Steven
 G. Johnson, available from http://jdj.mit.edu/wiki/index.php/Faddeeva_w
 
+Installation
+------------
+To compile the library, simply run `make` from the main directory. If your compiler is not gfortran, edit the Makefile.
+You should only have to modify FC, FCFLAGS, and MODLOCFLAG. For Intel fortran (ifort), you can compile with
+`make USEIFORT=yes`.
+After the compilation has finished, the lib folder should contain two files: liblaserfields.a and laserfields.mod.
+To use the library in your program, add the flag `-I${LASERFIELDS_DIRECTORY}/lib` to your compilation step,
+and `-L${LASERFIELDS_DIRECTORY}/lib -llaserfields` to the linking.
+
+To also compile the provided programs, do `make progs`.
+
+`make test` (requires a recent version of gnuplot) produces test/laserfields_tests.pdf, which shows some sample fields
+and their Fourier transform.
+
 Documentation
 -------------
 Sample input files are in [test](https://github.com/jfeist/laserfields/tree/master/test),
