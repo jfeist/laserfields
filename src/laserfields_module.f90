@@ -848,7 +848,7 @@ contains
        ZL = 0.d0
     else if (zeit > lf%tt(np)) then
        ! ZL changes linearly after end of pulse (usually AL(endtime) should be zero, so ZL stays constant)
-       ZL = lf%ZZ(np) + (zeit - lf%tt(np)) * get_AL(lf,lf%tt(np))
+       ZL = lf%ZZ(np) - (zeit - lf%tt(np)) * get_AL(lf,lf%tt(np))
     else
        ! interpolate a value from the numerical array lf%ZZ
        ZL = interpolate(lf%tt,lf%ZZ,zeit,degree=6)
