@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('structlaserfields__module_1_1laserfiel
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a328021bfd17e858d1b518e43240b68f7"><td class="memItemLeft" align="right" valign="top">character(len=30)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlaserfields__module_1_1laserfield.html#a328021bfd17e858d1b518e43240b68f7">form</a> ''</td></tr>
-<tr class="memdesc:a328021bfd17e858d1b518e43240b68f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'constant', or 'readin'.  <a href="#a328021bfd17e858d1b518e43240b68f7"></a><br/></td></tr>
+<tr class="memdesc:a328021bfd17e858d1b518e43240b68f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'readin'.  <a href="#a328021bfd17e858d1b518e43240b68f7"></a><br/></td></tr>
 <tr class="separator:a328021bfd17e858d1b518e43240b68f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a781c730edd6a7fe820d3fb289986f3a6"><td class="memItemLeft" align="right" valign="top">character(len=200)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlaserfields__module_1_1laserfield.html#a781c730edd6a7fe820d3fb289986f3a6">datafile</a> ''</td></tr>
 <tr class="memdesc:a781c730edd6a7fe820d3fb289986f3a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Only for form=='readin': file to read numerical data from.  <a href="#a781c730edd6a7fe820d3fb289986f3a6"></a><br/></td></tr>
@@ -136,7 +136,7 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ab582777ee47eab1bf8874d94cc308aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">duration in as - depending on the value of form, this has different meanings!  <a href="#ab582777ee47eab1bf8874d94cc308aea"></a><br/></td></tr>
 <tr class="separator:ab582777ee47eab1bf8874d94cc308aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac97ed13105c9c664c2898c7ddd058979"><td class="memItemLeft" align="right" valign="top">real(dp)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlaserfields__module_1_1laserfield.html#ac97ed13105c9c664c2898c7ddd058979">rampon_as</a> 0.d0</td></tr>
-<tr class="memdesc:ac97ed13105c9c664c2898c7ddd058979"><td class="mdescLeft">&#160;</td><td class="mdescRight">Only relevant for form linear, linear2, and constant: duration of rampon/rampoff at beginning and end of pulse, in as.  <a href="#ac97ed13105c9c664c2898c7ddd058979"></a><br/></td></tr>
+<tr class="memdesc:ac97ed13105c9c664c2898c7ddd058979"><td class="mdescLeft">&#160;</td><td class="mdescRight">Only relevant for form linear and linear2: duration of rampon/rampoff at beginning and end of pulse, in as.  <a href="#ac97ed13105c9c664c2898c7ddd058979"></a><br/></td></tr>
 <tr class="separator:ac97ed13105c9c664c2898c7ddd058979"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8818a363d06c17af15ef7b62aa022ab"><td class="memItemLeft" align="right" valign="top">real(dp)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlaserfields__module_1_1laserfield.html#ab8818a363d06c17af15ef7b62aa022ab">phase_pi</a> 0.d0</td></tr>
 <tr class="memdesc:ab8818a363d06c17af15ef7b62aa022ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carrier-envelope phase (CEP), in multiples of &pi;.<br/>
@@ -191,18 +191,17 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'constant', or 'readin'. </p>
+<p>The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'readin'. </p>
 <ul>
 <li>gaussianF, gaussianI: Gaussian pulses with form exp(-z t<sup>2</sup>) (see laserfieldduration doc for meaning of z)</li>
 <li>sin2: sin<sup>2</sup> envelope</li>
 <li>sin_exp: sin<sup>form_exponent</sup> envelope</li>
 <li>linear: linear rampon, then constant amplitude, then linear rampoff</li>
 <li>linear2: same as linear, but with sin<sup>2</sup> rampon/off</li>
-<li>constant: same as linear, but without an enclosed oscillation</li>
 <li>readin: read numerical data from an input file and interpolate </li>
 </ul>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00023">23</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00022">22</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -218,7 +217,7 @@ Public Attributes</h2></td></tr>
 
 <p>Only for form=='readin': file to read numerical data from. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00025">25</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00024">24</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -234,7 +233,7 @@ Public Attributes</h2></td></tr>
 
 <p>If .true., describe the vector potential A(t) with the given envelope - E(t) will contain derivative terms. This is often useful to make sure that A(-infty) = A(infty), a requirement for propagating fields. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00028">28</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00027">27</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -250,7 +249,7 @@ Public Attributes</h2></td></tr>
 
 <p>peak intensity in W/cm<sup>2</sup> </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00031">31</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00030">30</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -266,7 +265,7 @@ Public Attributes</h2></td></tr>
 
 <p>carrier wavelength in nm </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00033">33</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00032">32</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -282,7 +281,7 @@ Public Attributes</h2></td></tr>
 
 <p>peak time of envelope in as </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00035">35</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00034">34</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -301,11 +300,11 @@ Public Attributes</h2></td></tr>
 <li>gaussianF: FWHM of the field envelope</li>
 <li>gaussianI: FWHM of the intensity envelope</li>
 <li>sin2, sin_exp: total duration of pulse</li>
-<li>linear, linear2, constant: time during which pulse has peak amplitude</li>
+<li>linear, linear2: time during which pulse has peak amplitude</li>
 <li>readin: ignored </li>
 </ul>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00043">43</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00042">42</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -319,9 +318,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Only relevant for form linear, linear2, and constant: duration of rampon/rampoff at beginning and end of pulse, in as. </p>
+<p>Only relevant for form linear and linear2: duration of rampon/rampoff at beginning and end of pulse, in as. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00045">45</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00044">44</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -338,7 +337,7 @@ Public Attributes</h2></td></tr>
 <p>Carrier-envelope phase (CEP), in multiples of &pi;.<br/>
  phase_pi=0 corresponds to a pulse with sin(w (t-t<sub>peak</sub>)) oscillation. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00047">47</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00046">46</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -354,7 +353,7 @@ Public Attributes</h2></td></tr>
 
 <p>Only relevant for form sin_exp: exponent of envelope. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00049">49</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00048">48</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -371,7 +370,7 @@ Public Attributes</h2></td></tr>
 <p>linear temporal chirp rate, in units of omega_0/as </p>
 <p>&omega; = &omega;<sub>0</sub> (1 + linear_chirp_rate_w0 (t-t<sub>peak</sub>)) e.g. for a value of 1.d-3, the frequency will change by &omega; over 1000 as. Since the carrier wave should not have negative frequencies, you must take care that the chirp is not too large. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00055">55</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00054">54</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -387,7 +386,7 @@ Public Attributes</h2></td></tr>
 
 <p><b>Derived</b>: peak electric field strength in a.u. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00059">59</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00058">58</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -403,7 +402,7 @@ Public Attributes</h2></td></tr>
 
 <p><b>Derived</b>: carrier angular frequency in a.u. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00061">61</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00060">60</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -419,7 +418,7 @@ Public Attributes</h2></td></tr>
 
 <p><b>Derived</b>: carrier period in a.u. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00063">63</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00062">62</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -435,7 +434,7 @@ Public Attributes</h2></td></tr>
 
 <p><b>Derived</b>: peak time of envelope in a.u. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00065">65</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00064">64</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -451,7 +450,7 @@ Public Attributes</h2></td></tr>
 
 <p><b>Derived</b>: duration in a.u. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00067">67</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00066">66</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -467,7 +466,7 @@ Public Attributes</h2></td></tr>
 
 <p><b>Derived</b>: rampon/rampoff in a.u. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00069">69</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00068">68</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -483,7 +482,7 @@ Public Attributes</h2></td></tr>
 
 <p>Numerical arrays to save the fields for interpolation for read-in fields. also used for numerical integration of E(t) to obtain A(t) and Z(t) for is_vecpot=.false. and numerical integration of A(t) to obtain Z(t) for is_vecpot=.true. </p>
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00074">74</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00073">73</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -497,7 +496,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00074">74</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00073">73</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -511,7 +510,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00074">74</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00073">73</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -525,7 +524,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00074">74</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
+<p>Definition at line <a class="el" href="laserfields__module_8f90_source.html#l00073">73</a> of file <a class="el" href="laserfields__module_8f90_source.html">laserfields_module.f90</a>.</p>
 
 </div>
 </div>
@@ -538,7 +537,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classlaserfields__module.html">laserfields_module</a></li><li class="navelem"><a class="el" href="structlaserfields__module_1_1laserfield.html">laserfield</a></li>
-    <li class="footer">Generated on Fri Nov 9 2012 16:09:05 for laserfields by
+    <li class="footer">Generated on Mon Nov 19 2012 19:22:17 for laserfields by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>
