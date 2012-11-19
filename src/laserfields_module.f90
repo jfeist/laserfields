@@ -11,14 +11,13 @@ module laserfields_module
 
   !> Datatype describing a single laserfield, should usually be created through make_laserfield routine
   type :: laserfield
-     !> The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'constant', or 'readin'
+     !> The shape of the envelope, can be 'gaussianF', 'gaussianI', 'sin2', 'sin_exp', 'linear', 'linear2', 'readin'
 
      !> - gaussianF, gaussianI: Gaussian pulses with form exp(-z t<sup>2</sup>) (see laserfield%duration doc for meaning of z)
      !> - sin2: sin<sup>2</sup> envelope
      !> - sin_exp: sin<sup>form_exponent</sup> envelope
      !> - linear: linear rampon, then constant amplitude, then linear rampoff
      !> - linear2: same as linear, but with sin<sup>2</sup> rampon/off
-     !> - constant: same as linear, but without an enclosed oscillation
      !> - readin: read numerical data from an input file and interpolate
      character(len=30) :: form = ''
      !> Only for form=='readin': file to read numerical data from
@@ -38,10 +37,10 @@ module laserfields_module
      !> - gaussianF: FWHM of the field envelope
      !> - gaussianI: FWHM of the intensity envelope
      !> - sin2, sin_exp: total duration of pulse
-     !> - linear, linear2, constant: time during which pulse has peak amplitude
+     !> - linear, linear2: time during which pulse has peak amplitude
      !> - readin: ignored
      real(dp) :: duration_as = 0.d0
-     !> Only relevant for form linear, linear2, and constant: duration of rampon/rampoff at beginning and end of pulse, in as
+     !> Only relevant for form linear and linear2: duration of rampon/rampoff at beginning and end of pulse, in as
      real(dp) :: rampon_as = 0.d0
      !> Carrier-envelope phase (CEP), in multiples of &pi;.<br> phase_pi=0 corresponds to a pulse with sin(w (t-t<sub>peak</sub>)) oscillation.
      real(dp) :: phase_pi = 0.d0
@@ -180,7 +179,7 @@ contains
 
     ! make sure we know how to deal with this laser field
     select case (lf%form)
-    case('gaussianF','gaussianI','linear','linear2','constant','sin2','sin_exp','readin')
+    case('gaussianF','gaussianI','linear','linear2','sin2','sin_exp','readin')
        continue
     case default
        write(0,'(2A)') 'ERROR! laser field form unknown, form = ', trim(lf%form)
@@ -195,7 +194,11 @@ contains
 
     lf%E0 = sqrt(lf%intensity_Wcm2 * au_wcm2toEL2)
     lf%TX = lf%lambda_nm * au_nm / au_c
-    lf%omega = TWOPI / lf%TX
+    if (lf%TX/=0) then
+       lf%omega = TWOPI / lf%TX
+    else ! special provision: if lambda=0, we take a laser field without any oscillation, so also omega=0
+       lf%omega = 0
+    end if
     lf%peak_time = lf%peak_time_as * au_as
     lf%duration = lf%duration_as * au_as
     lf%rampon = lf%rampon_as * au_as
@@ -203,7 +206,7 @@ contains
     ! handle exceptions and warnings
     if (lf%is_vecpot) then
        select case (lf%form)
-       case('linear','sin_exp','constant')
+       case('linear','sin_exp')
           write(0,*) 'ERROR: Selected laser field cannot be given by A-envelope: ', trim(lf%form)
           write(0,*) '       -> E-field would be discontinuous!'
           STOP 311
@@ -217,6 +220,16 @@ contains
                & ' envelopes! Check that E(t) and A(t) are really as you expect them!'
        end if
     end select
+
+    if (lf%omega==0 .and. lf%linear_chirp_rate_w0as/=0) then
+       write(0,'(A)') 'WARNING: laserfield has lambda=0, i.e. no oscillation, but chirp/=0. chirp will be ignored!'
+    end if
+
+    if (lf%omega==0 .and. lf%is_vecpot) then
+       write(0,'(2A)') 'WARNING: laserfield has lambda=0, i.e. no oscillation, but is_vecpot is true. ', &
+            & 'The peak intensity is currently not treated correctly!'
+    end if
+
   end subroutine laserfield_set_dependent
   !---------------------------------------------------------------------------
   subroutine read_laserfield_from_file(lf)
@@ -446,14 +459,14 @@ contains
     ! want to numerically integrate that to get the vector potential
     ! we use the trapezoid rule
 
+    starttime = lf_get_starttime(lf)
+    endtime   = lf_get_endtime  (lf)
     ! ensure small enough dt to allow for good interpolation
     dt = lf%TX/250
     if (dt == 0.d0) then
-       write(0,*) 'ERROR: dt=0 in setup_AA_interpolation. (No lambda specified?)'
-       STOP 746
+       ! this is a field without oscillation - interpolate envelope with 500 points
+       dt = (endtime-starttime) / 500
     end if
-    starttime = lf_get_starttime(lf)
-    endtime   = lf_get_endtime  (lf)
 
     ! find number of points closest to wanted dt
     npoints = nint((endtime-starttime) / dt + 1)  ! the "+ 1" is for the endpoint
@@ -477,14 +490,14 @@ contains
     ! want to numerically integrate that to get the classical position for the acceleration gauge / Kramers frame hamiltonian
     ! we use the trapezoid rule
 
+    starttime = lf_get_starttime(lf)
+    endtime   = lf_get_endtime  (lf)
     ! ensure small enough dt to allow for good interpolation
     dt = lf%TX/250
     if (dt == 0.d0) then
-       write(0,*) 'ERROR: dt=0 in setup_ZZ_interpolation. (No lambda specified?)'
-       STOP 747
+       ! this is a field without oscillation - interpolate envelope with 500 points
+       dt = (endtime-starttime) / 500
     end if
-    starttime = lf_get_starttime(lf)
-    endtime   = lf_get_endtime  (lf)
 
     ! find number of points closest to wanted dt
     npoints = nint((endtime-starttime) / dt + 1)  ! the "+ 1" is for the endpoint
@@ -525,9 +538,8 @@ contains
     case('gaussianI') ! laser pulse with Gaussian envelope, lf%duration is FWHM of intensity envelope
        env   = exp(-trel**2*log( 4.d0)/lf%duration**2)
        envpr = -2*trel*log( 4.d0)/lf%duration**2 * env
-    case('linear','constant')
+    case('linear')
        ! "linear" is a field with constant intensity for lf%duration, and linear rampon/rampoff of duration lf%rampon at the beginning and end
-       ! "constant" has the same envelope, but without an enclosed oscillation.
        if (abs(trel) < lf%duration/2) then
           env   = 1.d0
           envpr = 0.d0
@@ -607,9 +619,9 @@ contains
     case('gaussianI')
        z = log( 4.d0)/lf%duration**2 - IU * chirp
        val = exp(-omega**2/(4*z)) / sqrt(2*z)
-    case('linear','constant')
+    case('linear')
        if (chirp /= 0.d0) then
-          write(0,'(A)') 'ERROR! linear/constant fourier transform with chirp not implemented!'
+          write(0,'(A)') 'ERROR! fourier transform of "linear" envelope with chirp not implemented!'
           STOP 676
        end if
        val = sqrt(8.d0/PI) * sin(omega*lf%rampon/2) * sin(omega*(lf%rampon+lf%duration)/2) / (lf%rampon * omega**2)
@@ -680,9 +692,9 @@ contains
     case('gaussianI')
        z = log( 4.d0)/lf%duration**2 - IU * chirp
        write(tmpstr,'(999A)') gnuplotstring(1/sqrt(2*z)), ' * exp(', gnuplotstring(-1/(4*z)),' * ('//omegastr//')**2)'
-    case('linear','constant')
+    case('linear')
        if (chirp /= 0.d0) then
-          write(0,'(A)') 'ERROR! linear/constant fourier transform with chirp not implemented!'
+          write(0,'(A)') 'ERROR! fourier transform of "linear" envelope with chirp not implemented!'
           STOP 676
        end if
        write(tmpstr,'(SP,999(ES15.8,A))') 8.d0/(PI*lf%rampon), ' * sin(', lf%rampon/2,'*('//omegastr//')) * sin(', &
@@ -730,10 +742,10 @@ contains
 
     ! The chirp rate is given in omega_0/as
     omega = lf%omega * (1.d0 + lf%linear_chirp_rate_w0as/au_as * (zeit-lf%peak_time))
-    ! if omega is larger than zero, everything is okay and we can return
-    if (omega > 0.d0) return
+    ! if omega is larger than or equal to zero, everything is okay and we can return
+    if (omega >= 0.d0) return
 
-    ! omega <= 0.d0 -> check envelope if present
+    ! omega < 0.d0 -> check envelope if present
     if (present(env)) then
        if (env <= epsilon(1.d0)) then
           ! envelope <= epsilon, recover by setting envelope to ZERO
@@ -743,7 +755,7 @@ contains
        end if
     end if
 
-    ! omega <= 0.d0 and no envelope or envelope too large
+    ! omega < 0.d0 and no envelope or envelope too large
     write(0,'(a)') ' ERROR: Field chirp is too large, omega(t) <= zero!'
     write(0,'(a,9g15.5)') ' t, omega = ', zeit, omega
     if (present(env)) write(0,'(a,9g15.5)') ' envelope > epsilon, env, epsilon =', env, epsilon(1.d0)
@@ -772,22 +784,23 @@ contains
     else
        call lf_get_envelope(lf,zeit,env,envpr)
 
-       call lf_get_omega(lf,zeit,omega,env)
-       osc   = sin(omega * (zeit-lf%peak_time) + PI*lf%phase_pi)
-       ! d(w(t)*(t-peak))/dt = w(t) + w'(t)*(t-peak) = omega + lf%omega * lf%chirp * (t-peak) = 2 * omega - lf%omega
-       oscpr = (2.d0*omega-lf%omega)*cos(omega*(zeit-lf%peak_time)+PI*lf%phase_pi)
-
-       if (lf%is_vecpot) then
-          if (lf%form=='constant') then ! No oscillation enclosed by envelope
+       if (lf%omega==0) then ! No oscillation enclosed by envelope
+          if (lf%is_vecpot) then
              EL = -envpr
           else
-             ! Divide out derivative of oscillation to ensure peak amplitude of E0
-             EL = -(env * oscpr + envpr * osc) / lf%omega
-          end if
-       else ! describes electric field directly
-          if (lf%form=='constant') then ! No oscillation enclosed by envelope
              EL = env
-          else
+          end if
+       else
+          call lf_get_omega(lf,zeit,omega,env)
+          osc   = sin(omega * (zeit-lf%peak_time) + PI*lf%phase_pi)
+          ! d(w(t)*(t-peak))/dt = w(t) + w'(t)*(t-peak) = omega + lf%omega * lf%chirp * (t-peak) = 2 * omega - lf%omega
+          oscpr = (2.d0*omega-lf%omega)*cos(omega*(zeit-lf%peak_time)+PI*lf%phase_pi)
+
+          if (lf%is_vecpot) then
+             ! Divide out derivative of oscillation to ensure peak amplitude of E0
+             ! NOTE: this does not actually give a peak amplitude of E0 for chirped linear/linear2 pulses
+             EL = -(env * oscpr + envpr * osc) / lf%omega
+          else ! describes electric field directly
              EL = env * osc
           end if
        end if
@@ -824,12 +837,11 @@ contains
     else
        call lf_get_envelope(lf,zeit,env,envpr)
 
-       call lf_get_omega(lf,zeit,omega,env)
-       osc = sin(omega * (zeit-lf%peak_time) + PI*lf%phase_pi)
-
-       if (lf%form=='constant') then ! No oscillation enclosed by envelope
+       if (lf%omega==0) then ! No oscillation enclosed by envelope
           AL = env
        else
+          call lf_get_omega(lf,zeit,omega,env)
+          osc = sin(omega * (zeit-lf%peak_time) + PI*lf%phase_pi)
           ! Divide out derivative of oscillation to ensure peak amplitude of E0 for electric field
           AL = env*osc / lf%omega
        end if
@@ -907,7 +919,7 @@ contains
     case('gaussianI')
        ! take into account that for gaussianI, duration is FWHM of intensity
        tt = lf%duration * gaussian_time_cutoff_fwhm * sqrt(2.d0)
-    case('linear','linear2','constant')
+    case('linear','linear2')
        tt = lf%duration * 0.5d0 + lf%rampon
     case ('sin2','sin_exp')
        tt = lf%duration * 0.5d0
@@ -998,10 +1010,14 @@ contains
        ! this laser field is only relevant if we are before its endtime
        if (zeit < tend) then
           if (zeit >= tstart) then
-             ! if it's currently active, dt has to be at most TX(zeit)/minimum_steps_per_laser_period, where TX depends on zeit for chirped pulses
-             call lf_get_omega(all_laserfields(ii),zeit,omega)
-             TX = TWOPI / omega
-             dt = min(dt,TX/minimum_steps_per_laser_period)
+             if (all_laserfields(ii)%omega==0) then
+                dt = min(dt,(all_laserfields(ii)%duration+2*all_laserfields(ii)%rampon)/500)
+             else
+                ! if it's currently active, dt has to be at most TX(zeit)/minimum_steps_per_laser_period, where TX depends on zeit for chirped pulses
+                call lf_get_omega(all_laserfields(ii),zeit,omega)
+                TX = TWOPI / omega
+                dt = min(dt,TX/minimum_steps_per_laser_period)
+             end if
           else if (zeit+dt > tstart) then
              ! if dt would go beyond the starttime, decrease it
              ! to go only from zeit to tstart
@@ -1133,7 +1149,7 @@ contains
        STOP 1103
     end if
 
-    if (lf%form=='constant') then ! No oscillation enclosed by envelope
+    if (lf%omega==0) then ! No oscillation enclosed by envelope
        ELFT = lf_envelope_fourier(lf,omega)
     else
        ! with tp = t-tpeak, the whole pulse is
@@ -1157,8 +1173,9 @@ contains
     if (lf%is_vecpot) then
        ! if this laser field was defined as a vector potential, we need to multiply with -IU*omega to get the fourier transform of the electric field, E=-dA/dt
        ! F[-dA/dt] = -iw F[A]
-       ! in addition, we need to take into account that A0 = E0 / lf%omega
-       ELFT = -IU * omega * ELFT / lf%omega
+       ELFT = -IU * omega * ELFT 
+       ! in addition, we need to take into account that A0 = E0 / lf%omega if we have an oscillation
+       if (lf%omega/=0) ELFT = ELFT / lf%omega
     end if
 
   end function lf_get_EL_fourier_transform
@@ -1175,7 +1192,7 @@ contains
        STOP 1103
     end if
 
-    if (lf%form=='constant') then ! No oscillation enclosed by envelope
+    if (lf%omega==0) then ! No oscillation enclosed by envelope
        Ff = trim(lf_envelope_fourier_string(lf,'w'))
     else
        ! with tp = t-tpeak, the whole pulse is

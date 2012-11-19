@@ -45,3 +45,15 @@
    phase_pi                     =  -.3
    linear_chirp_rate_w0as       =  -0.00005
    laserfield_end               =  1
+
+################### laser  5 parameters ####################
+   laserfield                   =  sin2
+   is_vecpot                    =  T
+   intensity_Wcm2               =  1.d15
+   lambda_nm                    =  0.0
+   peak_time_as                 =  1100.0
+   duration_as                  =  500.0
+   rampon_as                    =  0.0
+   phase_pi                     =  0
+   linear_chirp_rate_w0as       =  0
+   laserfield_end               =  1

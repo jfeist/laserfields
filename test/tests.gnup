@@ -36,25 +36,25 @@ plot 'laserfields_test1_fields.dat' u 1:3 t 'A(t)'
 plot 'laserfields_test1_fields.dat' u 1:4 t 'Z(t)'
 set log y
 plot [][1e10:3e15] 'laserfields_test1_fields.dat' u 1:5 t 'I(t)',\
-     for [ii=13:19] '' u 1:(column(ii)**2*3.509338e16) t sprintf('I_{%d}',ii-12)
+     for [ii=15:23] '' u 1:(column(ii)**2*3.509338e16) t sprintf('I_{%d}',ii-14)
 unset log y
 unset multiplot
 
 set key maxrows 10 top right spacing 2
 set multiplot layout 2,1 title 'laser\_fields\_test2.in: separated in time, overlapping in frequency'
 plot 'laserfields_test2_fields.dat' u 1:2 t 'E(t)',\
-     for [ii=6:9] '' u 1:ii t sprintf('E_{%d}(t)',ii-5)
+     for [ii=6:11] '' u 1:ii t sprintf('E_{%d}(t)',ii-5)
 set log y
 plot [][1e-6:] 'laserfields_test2_fourier.dat' u 1:(abz(2)**2) t '|F({/Symbol w})|^2',\
-     for [ii=6:12:2] '' u 1:(abz(ii)**2) t sprintf('|F_{%d}({/Symbol w})|^2',ii/2-2)
+     for [ii=6:16:2] '' u 1:(abz(ii)**2) t sprintf('|F_{%d}({/Symbol w})|^2',ii/2-2)
 unset log y
 unset multiplot
 
 set multiplot layout 2,1 title 'laser\_fields\_test3.in: overlapping in time, separated in frequency'
-plot [-16:56] 'laserfields_test3_fields.dat' u 1:2 t 'E(t)', for [ii=6:9] '' u 1:ii t sprintf('E_{%d}(t)',ii-5)
+plot [-16:56] 'laserfields_test3_fields.dat' u 1:2 t 'E(t)', for [ii=6:10] '' u 1:ii t sprintf('E_{%d}(t)',ii-5)
 set log y
 plot [:9][1e-6:] 'laserfields_test3_fourier.dat' u 1:(abz(2)**2) t '|F({/Symbol w})|^2',\
-     for [ii=6:12:2] '' u 1:(abz(ii)**2) t sprintf('|F_{%d}({/Symbol w})|^2',ii/2-2)
+     for [ii=6:14:2] '' u 1:(abz(ii)**2) t sprintf('|F_{%d}({/Symbol w})|^2',ii/2-2)
 unset log y
 unset multiplot
 
@@ -70,6 +70,6 @@ plot [0:9][1e-10:1] \
      'laserfields_test3_fourier.dat' u 1:(abz(2)**2)               t '|F_{ana}({/Symbol w})|^2' ls 1 lw 8,\
      'laserfields_test3_numerical_fourier.dat' u ($1/ev_au):($2/2) t '|F_{num}({/Symbol w})|^2' ls 5,\
      'laserfields_test3_fourier.dat' u 1:(unroll_phase(pha(2))/pi)  axis x1y2 t 'arg(F_{ana}({/Symbol w}))' ls 3 lw 8,\
-     'laserfields_test3_numerical_fourier.dat' u ($1/ev_au):($3/pi) axis x1y2 t 'arg(F_{num}({/Symbol w}))' ls 2
+     'laserfields_test3_numerical_fourier.dat' u ($1/ev_au):($3/pi-2) axis x1y2 t 'arg(F_{num}({/Symbol w}))' ls 2
 unset log y
 set output; system('ps2pdf '.outfi.' && rm '.outfi)
