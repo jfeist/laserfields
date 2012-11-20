@@ -1039,88 +1039,86 @@ $(document).ready(function(){initNavTree('laserfields__module_8f90_source.html',
 <div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;    <span class="keywordflow">end do</span></div>
 <div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;<span class="keyword">  end function </span><a class="code" href="classlaserfields__module.html#a74a53421f8b5827ea5017939ab4df303">laserfields_smallest_tx</a></div>
 <div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;  <span class="comment">!---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00975"></a><span class="lineno"><a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">  975</a></span>&#160;<span class="keyword">  real(dp) </span><span class="keyword">function </span><a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a>(zeit,endzeit,global) result(dt)</div>
-<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">intent(in)</span> :: zeit</div>
-<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">intent(in)</span>, <span class="keywordtype">optional</span> :: endzeit</div>
-<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;    <span class="keywordtype">real(dp)</span> :: tstart, tend, omega, tx</div>
-<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;    <span class="keywordtype">integer</span> :: ii</div>
-<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;    <span class="keywordtype">logical</span>, <span class="keywordtype">intent(in)</span>, <span class="keywordtype">optional</span> :: global</div>
-<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;</div>
-<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;    <span class="comment">! if endzeit is specified, that is the time until which we want to propagate at most</span></div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;    <span class="keywordflow">if</span> (present(endzeit)) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;       <span class="keywordflow">if</span> (endzeit &lt;= zeit) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;          <span class="comment">! we have already passed endzeit, but still want to do an extra step - shouldn&#39;t normally happen!</span></div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;          <span class="comment">! do at least a very small step - the smallest possible that still changes zeit</span></div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;          dt = nearest(zeit,1.d0)-zeit</div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;          <span class="keywordflow">return</span></div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;       <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;       <span class="comment">! normally, have the time until endzeit be the maximum timestep</span></div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;       dt = endzeit-zeit</div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;       <span class="comment">! otherwise, do steps of at most 100 atomic units</span></div>
-<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;       dt = 100.d0</div>
-<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;    <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;</div>
-<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;    <span class="comment">! if global is requested, we just get the global maximum timestep</span></div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;    <span class="keywordflow">if</span> (present(global)) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;       <span class="keywordflow">if</span> (global) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;          dt = min(dt,minval(all_laserfields(1:n_laserfields)%TX)/minimum_steps_per_laser_period)</div>
-<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;          <span class="keywordflow">return</span> <span class="comment">! exit function</span></div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;       <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;    <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;</div>
-<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;    <span class="comment">! otherwise, loop over laser fields and get the maximum timestep allowed at this time (doing at most minimum_steps_per_laser_period steps per period)</span></div>
-<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;    <span class="keywordflow">do</span> ii = 1, n_laserfields</div>
-<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;       tstart = <a class="code" href="classlaserfields__module.html#a9230f4e5716108fe1b71fa2bf373111f">lf_get_starttime</a>(all_laserfields(ii))</div>
-<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;       tend   = <a class="code" href="classlaserfields__module.html#a0377b0b0961d2178eb48fcf5a4cb3579">lf_get_endtime</a>(all_laserfields(ii))</div>
-<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;</div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;       <span class="comment">! this laser field is only relevant if we are before its endtime</span></div>
-<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;       <span class="keywordflow">if</span> (zeit &lt; tend) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;          <span class="keywordflow">if</span> (zeit &gt;= tstart) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;             <span class="keywordflow">if</span> (all_laserfields(ii)%omega==0) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;                dt = min(dt,(all_laserfields(ii)%duration+2*all_laserfields(ii)%rampon)/500)</div>
-<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;             <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;                <span class="comment">! if it&#39;s currently active, dt has to be at most TX(zeit)/minimum_steps_per_laser_period, where TX depends on zeit for chirped pulses</span></div>
-<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;                call <a class="code" href="classlaserfields__module.html#a6d1dee17dede1997c68bc4b2a5021b0a">lf_get_omega</a>(all_laserfields(ii),zeit,omega)</div>
-<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;                tx = twopi / omega</div>
-<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;                dt = min(dt,tx/minimum_steps_per_laser_period)</div>
-<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;             <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;          <span class="keywordflow">else</span> <span class="keywordflow">if</span> (zeit+dt &gt; tstart) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;             <span class="comment">! if dt would go beyond the starttime, decrease it</span></div>
-<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;             <span class="comment">! to go only from zeit to tstart</span></div>
-<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;             dt = tstart - zeit</div>
-<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;          <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;       <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;    <span class="keywordflow">end do</span></div>
-<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;</div>
-<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;<span class="keyword">  end function </span><a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a></div>
-<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;  <span class="comment">!---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l01031"></a><span class="lineno"><a class="code" href="classlaserfields__module.html#a0dd425ad926ad8af8df3fceae33c83dc"> 1031</a></span>&#160;<span class="keyword">  subroutine </span><a class="code" href="classlaserfields__module.html#a0dd425ad926ad8af8df3fceae33c83dc">write_laserfields</a>(unit,timestep)</div>
-<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;    <span class="keywordtype">use </span><a class="code" href="classatomic__units.html">atomic_units</a></div>
-<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: unit</div>
-<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">intent(in)</span>, <span class="keywordtype">optional</span> :: timestep</div>
-<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;    <span class="keywordtype">real(dp)</span> :: tt, dt, endtime</div>
-<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;    <span class="keywordtype">real(dp)</span> :: el, al, zl</div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">dimension(n_laserfields)</span> :: env, part</div>
-<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;</div>
-<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;    <span class="keyword">write</span>(unit,<span class="stringliteral">&#39;(A)&#39;</span>) <span class="stringliteral">&#39;# t  E(t)  A(t)  Z(t)  I(t)  [E_ii(t)] [envelope_ii(t)]&#39;</span></div>
+<div class="line"><a name="l00977"></a><span class="lineno"><a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">  977</a></span>&#160;<span class="keyword">  real(dp) </span><span class="keyword">function </span><a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a>(zeit,endzeit,global) result(dt)</div>
+<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">intent(in)</span> :: zeit</div>
+<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">intent(in)</span>, <span class="keywordtype">optional</span> :: endzeit</div>
+<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;    <span class="keywordtype">real(dp)</span> :: tstart, tend, omega, tx</div>
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;    <span class="keywordtype">integer</span> :: ii</div>
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;    <span class="keywordtype">logical</span>, <span class="keywordtype">intent(in)</span>, <span class="keywordtype">optional</span> :: global</div>
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;</div>
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;    <span class="comment">! if endzeit is specified, that is the time until which we want to propagate at most</span></div>
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;    <span class="keywordflow">if</span> (present(endzeit)) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;       <span class="keywordflow">if</span> (endzeit &lt;= zeit) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;          <span class="comment">! we have already passed endzeit, but still want to do an extra step - shouldn&#39;t normally happen!</span></div>
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;          <span class="comment">! do at least a very small step - the smallest possible that still changes zeit</span></div>
+<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;          dt = nearest(zeit,1.d0)-zeit</div>
+<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;          <span class="keywordflow">return</span></div>
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;       <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;       <span class="comment">! normally, have the time until endzeit be the maximum timestep</span></div>
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;       dt = endzeit-zeit</div>
+<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;       <span class="comment">! otherwise, do steps of at most 100 atomic units</span></div>
+<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;       dt = 100.d0</div>
+<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;    <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;</div>
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;    <span class="comment">! if global is requested, we just get the global maximum timestep</span></div>
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;    <span class="keywordflow">if</span> (present(global)) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;       <span class="keywordflow">if</span> (global) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;          dt = min(dt,minval(all_laserfields(1:n_laserfields)%TX)/minimum_steps_per_laser_period)</div>
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;          <span class="keywordflow">return</span> <span class="comment">! exit function</span></div>
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;       <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;    <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;</div>
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;    <span class="comment">! otherwise, loop over laser fields and get the maximum timestep allowed at this time (doing at most minimum_steps_per_laser_period steps per period)</span></div>
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;    <span class="keywordflow">do</span> ii = 1, n_laserfields</div>
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;       tstart = <a class="code" href="classlaserfields__module.html#a9230f4e5716108fe1b71fa2bf373111f">lf_get_starttime</a>(all_laserfields(ii))</div>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;       tend   = <a class="code" href="classlaserfields__module.html#a0377b0b0961d2178eb48fcf5a4cb3579">lf_get_endtime</a>(all_laserfields(ii))</div>
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;</div>
+<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;       <span class="comment">! this laser field is only relevant if we are before its endtime</span></div>
+<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;       <span class="keywordflow">if</span> (zeit &lt; tend) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;          <span class="keywordflow">if</span> (zeit &gt;= tstart) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;             <span class="keywordflow">if</span> (all_laserfields(ii)%omega==0) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;                <span class="comment">! for fields without oscillation, we want 500 steps for the whole field</span></div>
+<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;                dt = min(dt,(all_laserfields(ii)%duration+2*all_laserfields(ii)%rampon)/500)</div>
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;             <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;                <span class="comment">! if it&#39;s currently active, dt has to be at most TX(zeit)/minimum_steps_per_laser_period, where TX depends on zeit for chirped pulses</span></div>
+<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;                call <a class="code" href="classlaserfields__module.html#a6d1dee17dede1997c68bc4b2a5021b0a">lf_get_omega</a>(all_laserfields(ii),zeit,omega)</div>
+<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;                tx = twopi / omega</div>
+<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;                dt = min(dt,tx/minimum_steps_per_laser_period)</div>
+<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;             <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;          <span class="keywordflow">else</span> <span class="keywordflow">if</span> (zeit+dt &gt; tstart) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;             <span class="comment">! if we would go beyond the starttime, decrease dt to go only there</span></div>
+<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;             dt = tstart - zeit</div>
+<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;          <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;       <span class="keywordflow">end if</span></div>
+<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;    <span class="keywordflow">end do</span></div>
+<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;</div>
+<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;<span class="keyword">  end function </span><a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a></div>
+<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;  <span class="comment">!---------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l01033"></a><span class="lineno"><a class="code" href="classlaserfields__module.html#a0dd425ad926ad8af8df3fceae33c83dc"> 1033</a></span>&#160;<span class="keyword">  subroutine </span><a class="code" href="classlaserfields__module.html#a0dd425ad926ad8af8df3fceae33c83dc">write_laserfields</a>(unit,timestep)</div>
+<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;    <span class="keywordtype">use </span><a class="code" href="classatomic__units.html">atomic_units</a></div>
+<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: unit</div>
+<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">intent(in)</span>, <span class="keywordtype">optional</span> :: timestep</div>
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;    <span class="keywordtype">real(dp)</span> :: tt, endtime</div>
+<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;    <span class="keywordtype">real(dp)</span> :: el, al, zl</div>
+<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;    <span class="keywordtype">real(dp)</span>, <span class="keywordtype">dimension(n_laserfields)</span> :: env, part</div>
 <div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;</div>
-<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;    dt = 1.d0</div>
-<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;    tt = <a class="code" href="classlaserfields__module.html#ab42cff0434c7a3d967a6c7d445b221e1">laserfields_starttime</a>() - dt</div>
-<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;    endtime = <a class="code" href="classlaserfields__module.html#a36a0f80fcd9bfe3ac9d34dab9d82e819">laserfields_endtime</a>()</div>
-<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;    <span class="keywordflow">do</span></div>
-<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;       tt = tt + dt</div>
+<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;    <span class="keyword">write</span>(unit,<span class="stringliteral">&#39;(A)&#39;</span>) <span class="stringliteral">&#39;# t  E(t)  A(t)  Z(t)  I(t)  [E_ii(t)] [envelope_ii(t)]&#39;</span></div>
+<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;</div>
+<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;    tt = <a class="code" href="classlaserfields__module.html#ab42cff0434c7a3d967a6c7d445b221e1">laserfields_starttime</a>()</div>
+<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;    endtime = <a class="code" href="classlaserfields__module.html#a36a0f80fcd9bfe3ac9d34dab9d82e819">laserfields_endtime</a>()</div>
+<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;    <span class="keywordflow">do</span></div>
 <div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;       el = <a class="code" href="interfacelaserfields__module_1_1get__el.html">get_el</a>(tt, env, part)</div>
 <div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;       al = <a class="code" href="interfacelaserfields__module_1_1get__al.html">get_al</a>(tt)</div>
 <div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;       zl = <a class="code" href="interfacelaserfields__module_1_1get__zl.html">get_zl</a>(tt)</div>
 <div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;       <span class="keyword">write</span>(unit,<span class="stringliteral">&#39;(9999(1x,g22.14e3))&#39;</span>) tt, el, al, zl, el**2/au_wcm2toel2, part(:), env(:)</div>
-<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;</div>
-<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;       <span class="keywordflow">if</span> (present(timestep)) <span class="keywordflow">then</span></div>
-<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;          dt = timestep</div>
-<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;       <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;          dt = <a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a>(tt,endtime)</div>
-<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;       <span class="keywordflow">end if</span></div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;       <span class="keywordflow">if</span> (tt &gt;= endtime) <span class="keywordflow">exit</span></div>
+<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;       <span class="keywordflow">if</span> (tt &gt;= endtime) <span class="keywordflow">exit</span></div>
+<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;</div>
+<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;       <span class="keywordflow">if</span> (present(timestep)) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;          tt = tt + timestep</div>
+<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;       <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;          tt = tt + <a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a>(tt,endtime)</div>
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;       <span class="keywordflow">end if</span></div>
 <div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;    <span class="keywordflow">end do</span></div>
 <div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;<span class="keyword">  end subroutine </span><a class="code" href="classlaserfields__module.html#a0dd425ad926ad8af8df3fceae33c83dc">write_laserfields</a></div>
 <div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;  <span class="comment">!---------------------------------------------------------------------------</span></div>
@@ -1336,7 +1334,7 @@ $(document).ready(function(){initNavTree('laserfields__module_8f90_source.html',
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="laserfields__module_8f90.html">laserfields_module.f90</a></li>
-    <li class="footer">Generated on Mon Nov 19 2012 19:22:17 for laserfields by
+    <li class="footer">Generated on Tue Nov 20 2012 19:34:43 for laserfields by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>
