@@ -972,6 +972,8 @@ contains
     end do
   end function laserfields_smallest_TX
   !---------------------------------------------------------------------------
+  !> This function gives the maximum timestep that resolves the current oscillation well.
+  !> the global parameter minimum_steps_per_laser_period determines how large the timestep here is allowed to be.
   real(dp) function laserfields_largest_possible_dt(zeit,endzeit,global) result(dt)
     real(dp), intent(in) :: zeit
     real(dp), intent(in), optional :: endzeit
@@ -1011,6 +1013,7 @@ contains
        if (zeit < tend) then
           if (zeit >= tstart) then
              if (all_laserfields(ii)%omega==0) then
+                ! for fields without oscillation, we want 500 steps for the whole field
                 dt = min(dt,(all_laserfields(ii)%duration+2*all_laserfields(ii)%rampon)/500)
              else
                 ! if it's currently active, dt has to be at most TX(zeit)/minimum_steps_per_laser_period, where TX depends on zeit for chirped pulses
@@ -1019,8 +1022,7 @@ contains
                 dt = min(dt,TX/minimum_steps_per_laser_period)
              end if
           else if (zeit+dt > tstart) then
-             ! if dt would go beyond the starttime, decrease it
-             ! to go only from zeit to tstart
+             ! if we would go beyond the starttime, decrease dt to go only there
              dt = tstart - zeit
           end if
        end if
@@ -1032,28 +1034,26 @@ contains
     use atomic_units
     integer, intent(in) :: unit
     real(dp), intent(in), optional :: timestep
-    real(dp) :: tt, dt, endtime
+    real(dp) :: tt, endtime
     real(dp) :: EL, AL, ZL
     real(dp), dimension(n_laserfields) :: env, part
 
     write(unit,'(A)') '# t  E(t)  A(t)  Z(t)  I(t)  [E_ii(t)] [envelope_ii(t)]'
 
-    dt = 1.d0
-    tt = laserfields_starttime() - dt
+    tt = laserfields_starttime()
     endtime = laserfields_endtime()
     do
-       tt = tt + dt
        EL = get_EL(tt, env, part)
        AL = get_AL(tt)
        ZL = get_ZL(tt)
        write(unit,'(9999(1x,g22.14e3))') tt, EL, AL, ZL, EL**2/au_Wcm2toEL2, part(:), env(:)
+       if (tt >= endtime) exit
 
        if (present(timestep)) then
-          dt = timestep
+          tt = tt + timestep
        else
-          dt = laserfields_largest_possible_dt(tt,endtime)
+          tt = tt + laserfields_largest_possible_dt(tt,endtime)
        end if
-       if (tt >= endtime) exit
     end do
   end subroutine write_laserfields
   !---------------------------------------------------------------------------
