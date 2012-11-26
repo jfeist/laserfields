@@ -94,7 +94,7 @@ module faddeeva
   private
   public :: faddeeva_w, erf
 #ifndef USENRTYPE
-  ! include these explicitly so we can combine as standalone if we want
+  ! include these explicitly so we can compile as standalone if we want
   integer, parameter :: dp  = kind(1.d0)
   integer, parameter :: dpc = kind((1.d0,1.d0))
   real(dp), parameter :: pi = 3.14159265358979323846264338327950288419716939937510582d0
