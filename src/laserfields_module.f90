@@ -234,7 +234,7 @@ contains
   !---------------------------------------------------------------------------
   subroutine read_laserfield_from_file(lf)
     use misc_fileops
-    use miscfuncs
+    use laserfields_miscfuncs
     use atomic_units
     type(laserfield), intent(inout) :: lf
     integer ::  ii, io_error, unit, npoints
@@ -662,7 +662,7 @@ contains
   !---------------------------------------------------------------------------
   character(1000) function lf_envelope_fourier_string(lf,omegastr) result(val)
     use atomic_units
-    use miscfuncs
+    use laserfields_miscfuncs
     ! return the fourier transform of the envelope of the laser field
     ! we write the whole pulse as
     ! f(t) = (env(t) exp(IU*(phi0 + w0*tp + chirp*tp**2)) + c.c. ) / (2*IU), where tp = t-tpeak
@@ -765,7 +765,7 @@ contains
   end subroutine lf_get_omega
   !---------------------------------------------------------------------------
   real(dp) function lf_get_EL(lf,zeit,env_out) result(EL)
-    use miscfuncs
+    use laserfields_miscfuncs
     type(laserfield), intent(in) :: lf
     real(dp), intent(in) :: zeit
     real(dp), intent(out), optional :: env_out
@@ -811,7 +811,7 @@ contains
   end function lf_get_EL
   !---------------------------------------------------------------------------
   real(dp) function lf_get_AL(lf,zeit,env_out) result(AL)
-    use miscfuncs
+    use laserfields_miscfuncs
     type(laserfield), intent(inout) :: lf
     real(dp), intent(in) :: zeit
     real(dp), intent(out), optional :: env_out
@@ -850,7 +850,7 @@ contains
   end function lf_get_AL
   !---------------------------------------------------------------------------
   real(dp) function lf_get_ZL(lf,zeit) result(ZL)
-    use miscfuncs
+    use laserfields_miscfuncs
     type(laserfield), intent(inout) :: lf
     real(dp), intent(in) :: zeit
     integer :: np
@@ -1184,7 +1184,7 @@ contains
     ! analytically determine the fourier transform of the defined laser fields
     ! determined as Int exp(-i*omega*t) E(t) dt
     use atomic_units
-    use miscfuncs
+    use laserfields_miscfuncs
     type(laserfield), intent(in) :: lf
 
     if (.not.lf_can_get_fourier(lf)) then

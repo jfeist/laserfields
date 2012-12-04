@@ -1,7 +1,7 @@
 ! Copyright (c) 2012, Johannes Feist
 ! licensed under the MIT open source license, see LICENSE file
 
-module miscfuncs
+module laserfields_miscfuncs
   use nrtype
   implicit none
 
@@ -157,4 +157,4 @@ contains
     end do
   end function binary_search
   !-----------------------------------------------------------------------
-end module miscfuncs
+end module laserfields_miscfuncs
