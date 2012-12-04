@@ -5,7 +5,7 @@ module laserfields_fileops
   use nrtype
   implicit none
   public :: laserfields_read_parameters, laserfields_write_parameters
-  private :: read_laserfield
+  private :: read_laserfield_parameters
 
   !> read laserfield parameters and put into global all_laser_fields array
 
@@ -92,7 +92,7 @@ contains
        status = get_next_param(unit,name,valuestr)
        if (status /= 0) exit readparams
        if (name == 'laserfield') then
-          call read_laserfield(unit,valuestr)
+          call read_laserfield_parameters(unit,valuestr)
        else
           write(0,'(4A)') 'ERROR: unknown parameter encountered, name = ', trim(adjustl(name)), &
                & ' value = ', trim(adjustl(valuestr))
@@ -101,7 +101,7 @@ contains
     end do readparams
   end subroutine read_parameters_from_unit
   !---------------------------------------------------------------------------
-  subroutine read_laserfield(unit, form)
+  subroutine read_laserfield_parameters(unit, form)
     use misc_fileops
     use laserfields_module
     integer, intent(in) :: unit
@@ -111,7 +111,7 @@ contains
     character(len=200) :: name, valuestr
 
     if (len_trim(form) > len(lf%form)) then
-       write(0,*) 'laser field form too long in read_laserfield, form =', form
+       write(0,*) 'laser field form too long in read_laserfield_parameters, form =', form
        STOP 951
     end if
 
@@ -136,6 +136,6 @@ contains
     call laserfield_set_dependent(lf)
     if (lf%E0 /= 0.d0) call add_laserfield(lf)
 
-  end subroutine read_laserfield
+  end subroutine read_laserfield_parameters
   !---------------------------------------------------------------------------
 end module laserfields_fileops
