@@ -9,10 +9,10 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "laserfields.f90", "laserfields_8f90.html", [
       [ "laserfields", "classlaserfields.html", null ]
     ] ],
-    [ "laserfields_fileops.f90", "laserfields__fileops_8f90.html", [
-      [ "laserfields_fileops", "classlaserfields__fileops.html", "classlaserfields__fileops" ],
-      [ "laserfields_read_parameters", "interfacelaserfields__fileops_1_1laserfields__read__parameters.html", "interfacelaserfields__fileops_1_1laserfields__read__parameters" ],
-      [ "laserfields_write_parameters", "interfacelaserfields__fileops_1_1laserfields__write__parameters.html", "interfacelaserfields__fileops_1_1laserfields__write__parameters" ]
+    [ "laserfields_miscfuncs.f90", "laserfields__miscfuncs_8f90.html", [
+      [ "laserfields_miscfuncs", "classlaserfields__miscfuncs.html", "classlaserfields__miscfuncs" ],
+      [ "interpolate", "interfacelaserfields__miscfuncs_1_1interpolate.html", "interfacelaserfields__miscfuncs_1_1interpolate" ],
+      [ "gnuplotstring", "interfacelaserfields__miscfuncs_1_1gnuplotstring.html", "interfacelaserfields__miscfuncs_1_1gnuplotstring" ]
     ] ],
     [ "laserfields_module.f90", "laserfields__module_8f90.html", [
       [ "laserfields_module", "classlaserfields__module.html", "classlaserfields__module" ],
@@ -25,15 +25,8 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
       [ "get_al_fourier_transform", "interfacelaserfields__module_1_1get__al__fourier__transform.html", "interfacelaserfields__module_1_1get__al__fourier__transform" ],
       [ "get_el_fourier_transform_string", "interfacelaserfields__module_1_1get__el__fourier__transform__string.html", "interfacelaserfields__module_1_1get__el__fourier__transform__string" ]
     ] ],
-    [ "misc_fileops.f90", "misc__fileops_8f90.html", [
-      [ "misc_fileops", "classmisc__fileops.html", "classmisc__fileops" ],
-      [ "write_param", "interfacemisc__fileops_1_1write__param.html", "interfacemisc__fileops_1_1write__param" ],
-      [ "read_param", "interfacemisc__fileops_1_1read__param.html", "interfacemisc__fileops_1_1read__param" ]
-    ] ],
-    [ "miscfuncs.f90", "miscfuncs_8f90.html", [
-      [ "miscfuncs", "classmiscfuncs.html", "classmiscfuncs" ],
-      [ "interpolate", "interfacemiscfuncs_1_1interpolate.html", "interfacemiscfuncs_1_1interpolate" ],
-      [ "gnuplotstring", "interfacemiscfuncs_1_1gnuplotstring.html", "interfacemiscfuncs_1_1gnuplotstring" ]
+    [ "laserfields_paramfilehandling.f90", "laserfields__paramfilehandling_8f90.html", [
+      [ "laserfields_paramfilehandling", "classlaserfields__paramfilehandling.html", "classlaserfields__paramfilehandling" ]
     ] ],
     [ "nrtype.f90", "nrtype_8f90.html", [
       [ "nrtype", "classnrtype.html", "classnrtype" ]

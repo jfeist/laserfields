@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['binary_5fsearch',['binary_search',['../classmiscfuncs.html#a82b4ea1ff3d1719c2cf6353e2a00d1cd',1,'miscfuncs']]]
+  ['binary_5fsearch',['binary_search',['../classlaserfields__miscfuncs.html#a39e28f4711881881c41049c4bbf14488',1,'laserfields_miscfuncs']]]
 ];

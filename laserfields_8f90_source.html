@@ -111,7 +111,7 @@ $(document).ready(function(){initNavTree('laserfields_8f90_source.html','');});
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;  <span class="comment">! this is a trick for making use with intel fortran easier:</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  <span class="comment">! we explicitly list the variables/functions we want to import, which</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;  <span class="comment">! causes the generated laserfields.mod file to contain the definitions themselves and</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="comment">! not to depend on laserfields_module.mod and laserfields_fileops.mod</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  <span class="comment">! not to depend on laserfields_module.mod and laserfields_paramfilehandling.mod</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  <span class="comment">! in addition, this gives us the opportunity not to export all functions in these</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  <span class="comment">! modules for &quot;external&quot; use</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="keywordtype">use </span><a class="code" href="classnrtype.html">nrtype</a><span class="keywordtype">, ONLY</span> : dp, dpc</div>
@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('laserfields_8f90_source.html','');});
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;       &amp; <a class="code" href="classlaserfields__module.html#a74a53421f8b5827ea5017939ab4df303">laserfields_smallest_tx</a>, <a class="code" href="classlaserfields__module.html#aa9965216dc4a57681395c0cce793416a">laserfields_largest_possible_dt</a>, <a class="code" href="classlaserfields__module.html#a0dd425ad926ad8af8df3fceae33c83dc">write_laserfields</a>, &amp;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;       &amp; <a class="code" href="classlaserfields__module.html#a9deb3d6bfe21947237df8d63cdc95e9e">laserfield_teff</a>, <a class="code" href="classlaserfields__module.html#a0e83a1d8174921e438acb0899a014214">laserfield_int</a>, <a class="code" href="classlaserfields__module.html#aaee3dc5c51b4754e16834dc361dda641">tdcs_factor</a>, <a class="code" href="classlaserfields__module.html#a353322d7c3638d524bfba70bc8a48da6">cs_factor</a>, <a class="code" href="classlaserfields__module.html#a651fffd17e6e040780afbc64eed1c802">laserfields_can_get_fourier</a>, &amp;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;       &amp; <a class="code" href="classlaserfields__module.html#a64a83e7907aa45e4cda3fbbea6c93265">lf_can_get_fourier</a></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordtype">use </span><a class="code" href="classlaserfields__fileops.html">laserfields_fileops</a><span class="keywordtype">, only</span> : <a class="code" href="interfacelaserfields__fileops_1_1laserfields__read__parameters.html">laserfields_read_parameters</a>, <a class="code" href="interfacelaserfields__fileops_1_1laserfields__write__parameters.html">laserfields_write_parameters</a></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordtype">use </span><a class="code" href="classlaserfields__paramfilehandling.html">laserfields_paramfilehandling</a><span class="keywordtype">, only</span> : laserfields_read_parameters, laserfields_write_parameters</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">end module </span><a class="code" href="classlaserfields.html">laserfields</a></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('laserfields_8f90_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="laserfields_8f90.html">laserfields.f90</a></li>
-    <li class="footer">Generated on Tue Nov 20 2012 19:34:43 for laserfields by
+    <li class="footer">Generated on Tue Dec 4 2012 16:38:55 for laserfields by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

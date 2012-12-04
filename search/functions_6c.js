@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['lagrange_5finterpol',['lagrange_interpol',['../classmiscfuncs.html#a7021bca936c34bfb6e3b58192f3aed7d',1,'miscfuncs']]],
+  ['lagrange_5finterpol',['lagrange_interpol',['../classlaserfields__miscfuncs.html#ab3df6b72a1a94969bdaec13d1f46c249',1,'laserfields_miscfuncs']]],
   ['laserfield_5fint',['laserfield_int',['../classlaserfields__module.html#a0e83a1d8174921e438acb0899a014214',1,'laserfields_module']]],
   ['laserfield_5fnumerical_5fderivation_5fe_5ffrom_5fa',['laserfield_numerical_derivation_e_from_a',['../classlaserfields__module.html#aac940f4022d0bab862289fdd8e574464',1,'laserfields_module']]],
   ['laserfield_5fnumerical_5fintegration_5fa_5ffrom_5fe',['laserfield_numerical_integration_a_from_e',['../classlaserfields__module.html#aa46a03a8f68b055e4a0e11da03495afa',1,'laserfields_module']]],

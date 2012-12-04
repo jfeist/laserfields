@@ -3,9 +3,8 @@ var annotated =
     [ "atomic_units", "classatomic__units.html", "classatomic__units" ],
     [ "faddeeva", "classfaddeeva.html", "classfaddeeva" ],
     [ "laserfields", "classlaserfields.html", null ],
-    [ "laserfields_fileops", "classlaserfields__fileops.html", "classlaserfields__fileops" ],
+    [ "laserfields_miscfuncs", "classlaserfields__miscfuncs.html", "classlaserfields__miscfuncs" ],
     [ "laserfields_module", "classlaserfields__module.html", "classlaserfields__module" ],
-    [ "misc_fileops", "classmisc__fileops.html", "classmisc__fileops" ],
-    [ "miscfuncs", "classmiscfuncs.html", "classmiscfuncs" ],
+    [ "laserfields_paramfilehandling", "classlaserfields__paramfilehandling.html", "classlaserfields__paramfilehandling" ],
     [ "nrtype", "classnrtype.html", "classnrtype" ]
 ];
