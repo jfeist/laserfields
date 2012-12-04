@@ -233,7 +233,6 @@ contains
   end subroutine laserfield_set_dependent
   !---------------------------------------------------------------------------
   subroutine read_laserfield_from_file(lf)
-    use misc_fileops
     use laserfields_miscfuncs
     use atomic_units
     type(laserfield), intent(inout) :: lf

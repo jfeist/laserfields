@@ -19,6 +19,18 @@ module laserfields_miscfuncs
   end interface
   private gnuplotstring_d, gnuplotstring_z
 contains
+  !---------------------------------------------------------------------------
+  function get_unused_unit() result(unit)
+    integer :: unit
+    logical :: opened
+    ! find an unused unit to use
+    unit = 16
+    opened = .true.
+    do while (opened)
+       unit = unit + 1
+       inquire(unit=unit,opened=opened)
+    end do
+  end function get_unused_unit
   !----------------------------------------------------------------------
   !> obtain the phase (=argument) of a complex number
   real(dp) pure elemental function phase(c)

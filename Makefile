@@ -61,8 +61,7 @@ bin/% : programs/%.o ${LIB}
 
 ### dependencies
 src/atomic_units.o : src/nrtype.mod
-src/laserfields.o : src/laserfields_fileops.mod src/laserfields_module.mod
-src/laserfields_fileops.o : src/laserfields_module.mod src/misc_fileops.mod src/nrtype.mod
-src/laserfields_module.o : src/atomic_units.mod src/faddeeva.mod src/misc_fileops.mod src/laserfields_miscfuncs.mod src/nrtype.mod
-src/misc_fileops.o : src/nrtype.mod
+src/laserfields.o : src/laserfields_paramfilehandling.mod src/laserfields_module.mod
+src/laserfields_paramfilehandling.o : src/laserfields_module.mod src/nrtype.mod
+src/laserfields_module.o : src/atomic_units.mod src/faddeeva.mod src/laserfields_miscfuncs.mod src/nrtype.mod
 src/laserfields_miscfuncs.o : src/nrtype.mod
