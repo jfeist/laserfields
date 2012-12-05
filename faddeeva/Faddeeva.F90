@@ -1,8 +1,8 @@
 !!$ Copyright (c) 2012, Johannes Feist
 !!$ licensed under the MIT open source license, see LICENSE file
 !!$ The open-source C++ code by Steven G. Johnson this is based on is
-!!$ is provided in Faddeeva_w.cc and is available
-!!$ at: http://ab-initio.mit.edu/Faddeeva_w
+!!$ is provided in Faddeeva.cc and is available
+!!$ at: http://ab-initio.mit.edu/Faddeeva
 !!$ I have translated it to Fortran 95 in Oct 2012.
 !!$ the file faddeeva.f90 used for the main code can be produced
 !!$ with "cpp -P -DUSENRTYPE Faadeeva_w.F90 > faddeeva.f90"
