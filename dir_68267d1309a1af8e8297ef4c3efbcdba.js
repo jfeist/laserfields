@@ -4,8 +4,11 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
       [ "atomic_units", "classatomic__units.html", "classatomic__units" ]
     ] ],
     [ "faddeeva.f90", "faddeeva_8f90.html", [
-      [ "faddeeva", "classfaddeeva.html", "classfaddeeva" ]
+      [ "faddeeva", "classfaddeeva.html", "classfaddeeva" ],
+      [ "Faddeeva_w_im", "interfacefaddeeva_1_1_faddeeva__w__im.html", null ]
     ] ],
+    [ "Faddeeva_c.c", "_faddeeva__c_8c.html", "_faddeeva__c_8c" ],
+    [ "Faddeeva_c.h", "_faddeeva__c_8h.html", "_faddeeva__c_8h" ],
     [ "laserfields.f90", "laserfields_8f90.html", [
       [ "laserfields", "classlaserfields.html", null ]
     ] ],

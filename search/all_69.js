@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['inf',['Inf',['../_faddeeva__c_8c.html#a311d23688bfa914e83491178976adab9',1,'Faddeeva_c.c']]],
   ['intensity_5fwcm2',['intensity_wcm2',['../structlaserfields__module_1_1laserfield.html#ab776179c9ac177088ffbd2628f59c366',1,'laserfields_module::laserfield']]],
   ['interpolate',['interpolate',['../interfacelaserfields__miscfuncs_1_1interpolate.html',1,'laserfields_miscfuncs']]],
   ['interpolate_5farray',['interpolate_array',['../interfacelaserfields__miscfuncs_1_1interpolate.html#a50aeb0cae3e0c546781f7c54e98766c8',1,'laserfields_miscfuncs::interpolate']]],

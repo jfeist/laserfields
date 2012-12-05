@@ -1,4 +1,4 @@
 var classfaddeeva =
 [
-    [ "faddeeva_w", "classfaddeeva.html#a9a4e7d06ac3fd172eebe77dde943e622", null ]
+    [ "Faddeeva_w_im", "interfacefaddeeva_1_1_faddeeva__w__im.html", null ]
 ];
