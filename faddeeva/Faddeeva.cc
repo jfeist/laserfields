@@ -188,7 +188,15 @@ static inline bool my_isinf(double x) { return 1/x == 0.; }
 
 typedef double complex cmplx;
 
-#  define CMPLX(a,b) ((a) + I*(b))
+static inline cmplx CMPLX(double re, double im)
+{
+  cmplx val;
+  // use the gcc "magic" __real / __imag so infinities/nans
+  // are handled correctly. re + im*I fails in this case!
+  __real val = re;
+  __imag val = im;
+  return val;
+}
 
 static inline cmplx cpolar(double r, double t)
 {
