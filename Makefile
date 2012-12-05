@@ -2,7 +2,7 @@
 # licensed under the MIT open source license, see LICENSE file
 
 .SUFFIXES:
-.SUFFIXES: .f90 .o .mod .a
+.SUFFIXES: .f90 .o .mod .a .c
 
 # fortran compiler to use
 FC=gfortran
@@ -10,6 +10,9 @@ FC=gfortran
 FCFLAGS=-Wall -O3 -march=native
 # flag that tells the compiler where to put the produced module (.mod) files
 MODLOCFLAG=-J
+
+# Faddeeva_c.c needs C99
+CFLAGS=-std=c99 -Wall -O3 -march=native
 
 # for intel fortran:
 ifeq (${USEIFORT},yes)
@@ -20,7 +23,8 @@ endif
 
 LIB   :=lib/liblaserfields.a
 LIBMOD:=lib/laserfields.mod
-SRCS:=$(wildcard src/*.f90)
+F90SRCS:=$(wildcard src/*.f90)
+CSRCS  :=$(wildcard src/*.c)
 PROGSRCS:=$(wildcard programs/*.f90)
 PROGOBJS:=${PROGSRCS:.f90=.o}
 PROGS:=${PROGSRCS:programs/%.f90=bin/%}
@@ -37,7 +41,7 @@ clean:
 	${RM} ${LIB} ${LIBMOD} src/*.o src/*.mod programs/*.o bin/*
 	${MAKE} -C test clean
 
-${LIB}    : ${SRCS:.f90=.o}
+${LIB}    : ${F90SRCS:.f90=.o} ${CSRCS:.c=.o}
 ${LIBMOD} : ${LIBMOD:lib/%=src/%}
 	cp $< $@
 

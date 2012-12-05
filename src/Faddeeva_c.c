@@ -181,7 +181,7 @@ static inline bool my_isinf(double x) { return 1/x == 0.; }
 
 #else // !__cplusplus, i.e. pure C (requires C99 features)
 
-#  include "Faddeeva.h"
+#  include "Faddeeva_c.h"
 
 #  include <float.h>
 #  include <math.h>
