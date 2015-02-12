@@ -1,0 +1,92 @@
+\documentclass[letterpaper,aps,pra,10pt,superscriptaddress,showpacs,floats,nofootinbib]{revtex4-1}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{subfigure}
+\usepackage{amsmath,amssymb,mathbbol}
+
+\usepackage{grffile,graphicx,color}
+\usepackage{hyperref}
+
+\newcommand{\titlestr}{Fourier transform of chirped pulses}
+
+\definecolor{rltred}{rgb}{0.75,0,0}
+\definecolor{rltgreen}{rgb}{0,0.5,0}
+\definecolor{rltblue}{rgb}{0,0,0.75}
+\hypersetup{colorlinks,%
+hypertexnames=true,%
+pdfauthor={J. Feist},%
+pdftitle={\titlestr},%
+pdfview=FitH,%
+pdfstartview=FitH,%
+pdfpagemode=UseNone,%
+bookmarksopen=true,%
+bookmarksnumbered=true,%
+pdfhighlight=/I,%
+linkcolor=rltred,%
+citecolor=rltgreen,%
+linktocpage=true}
+
+\newcommand{\w}{\omega}
+\DeclareMathOperator{\erf}{erf}
+
+\begin{document}
+
+\title{\titlestr}
+\author{Johannes~Feist}
+\email{johannes.feist@uam.es}
+\affiliation{Departamento de Física Teórica de la Materia Condensada, Universidad Autónoma de Madrid}
+\date{\today}
+\pacs{42.65.Ky, 78.67.Bf, 73.20.Mf}
+
+%\maketitle
+
+We calculate the Fourier transform of chirped pulses for a few pulse shapes. In the present context, we define
+chirped pulses by a linear dependence of the instantaneous frequency on time, i.e.\ $\w(t) = \w_0 + c t$.
+Another option would be to define it as a quadratic spectral phase, which is equivalent for Gaussian pulses.
+The pulses are assumed to be peaked around $t=0$, as a shift in time is trivially achieved by multiplying the Fourier
+transform by $\exp(i \w t_0)$.
+All pulses are assumed to be expressed in the form
+\begin{align}\label{eq:pulseshape}
+E(t) &= f(t) \cos(\phi_0 + \w_0 t + c t^2)\\
+     &= \frac12 f(t) e^{i(\phi_0 + \w_0 t + c t^2)} + c.c.\\
+     &= \frac12 g(t) e^{i(\phi_0+\w_o t)} + c.c. \,,
+\end{align}
+where $f(t)$ is the (real) envelope function, while $g(t)=f(t)\exp(ict^2)$ is in general complex.
+$\phi_0$ is the carrier-envelope phase. Here and in the following we assume that $f(0) = 1$ and
+neglect the trivial scaling with peak field strength. The Fourier transform is then given by
+\begin{equation}\label{eq:pulsefourier}
+\tilde E(\w) = \frac{e^{i\phi_0}}2 \tilde g(\w-\w_0) + \frac{e^{-i\phi_0}}2 \tilde g^*(\w+\w_0)
+\end{equation}
+where 
+\begin{equation}
+\tilde h(\w) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} h(t) e^{-i\w t} \mathrm{d}t
+\end{equation}
+
+\section{Gaussian pulse}
+A Gaussian pulse is described by $f(t)=\exp\left(-\frac{t^2}{2\sigma^2}\right)$, where $\sigma$ is the
+standard deviation. We can then write $g(t) = \exp(-z t^2)$, where $z = \frac{1}{2\sigma^2} - i c$.
+The Fourier transform is then
+\begin{equation}
+\tilde g(\w) = \frac{1}{\sqrt{8z}} e^{-\w^2/4z} \,.
+\end{equation}
+
+\section{$\cos^2$ pulse}
+This pulse is defined by 
+\begin{equation}
+f(t) = \begin{cases} \cos\left(\pi t/T\right)^2 & |t| < T/2 \\ 0 & \text{otherwise}\end{cases}
+\end{equation}
+By expanding the trigonometric function in polynomials, we can write (for $|t|<T/2$):
+\begin{equation}
+g(t) = \frac{1}{2} e^{i c t^2} + \frac{1}{4} e^{i c t^2- 2 i \pi t/T}+\frac{1}{4} e^{i c t^2+ 2i\pi t/T}
+\end{equation}
+which can be Fourier-transformed by using
+\begin{equation}
+\frac{1}{\sqrt{2\pi}}\int_{-T/2}^{T/2} e^{i a t + i b t^2} \mathrm{d}t =
+    \frac{\exp(-\frac{ia^2}{4b})}{i\sqrt{8ib}} 
+    \left[\erf\left(\frac{a-bT}{\sqrt{4ib}} \right) 
+         -\erf\left(\frac{a+bT}{\sqrt{4ib}} \right)\right]
+\end{equation}
+
+
+
+\end{document}

@@ -1,0 +1,67 @@
+\documentclass[letterpaper,aps,pra,10pt,superscriptaddress,showpacs,floats,nofootinbib,notitlepage]{revtex4-1}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{subfigure}
+\usepackage{amsmath,amssymb,mathbbol}
+
+\usepackage{grffile,graphicx,color}
+\usepackage{hyperref}
+
+\newcommand{\w}{\omega}
+\newcommand{\Int}{\int\limits}
+\newcommand{\plf}{\texttt{plotlaserfourier}}
+\DeclareMathOperator{\erf}{erf}
+\newcommand{\titlestr}{Units of Fourier-transformed fields in \plf{}}
+
+\definecolor{rltred}{rgb}{0.75,0,0}
+\definecolor{rltgreen}{rgb}{0,0.5,0}
+\definecolor{rltblue}{rgb}{0,0,0.75}
+\hypersetup{colorlinks,%
+hypertexnames=true,%
+pdfauthor={Johannes Feist},%
+pdftitle={\titlestr},%
+linkcolor=blue,%
+citecolor=blue,%
+urlcolor=blue}
+
+\begin{document}
+
+\title{\titlestr}
+\author{Johannes~Feist}
+\email{johannes.feist@uam.es}
+\affiliation{Departamento de Física Teórica de la Materia Condensada, Universidad Autónoma de Madrid}
+\date{\today}
+
+\maketitle
+
+We discuss the units of the Fourier transform of the laser fields as calculated by \plf{}.
+
+The instantaneous intensity of an electric field is $I(t)=\frac{\epsilon_0 c}{2} E^2(t)$, which gives
+$I(t) = 3.50944\cdot10^{16}\,E_{au}^2(t)\ $W/m$^2$ if the electric field is given in atomic units, $E(t)=E_{au}(t) \mathcal{E}_{au}$ 
+(where $\mathcal{E}_{au}=\frac{e}{4\pi\epsilon_0 a_0^2} = 5.142207\cdot10^{11}\ $V/m is the atomic unit of electric field strength).
+In atomic units, we have $I(t) = 5.45249\,E^2_{au}(t)\ $a.u., where ``a.u.'' here is Hartree/$(t_{au} a_0^2)$, with Hartree$\ =27.211\ $eV,
+atomic unit of time $t_{au}=24.188\ $as, and Bohr radius $a_0= 5.29177\cdot10^{-11}\ $m.
+
+
+The Fourier transform returned by \plf{} is
+\begin{equation}
+  \tilde E(\w) = \frac{1}{\sqrt{2\pi}} \Int_{-\infty}^\infty e^{-i \w t} E(t) \mathrm{d}t\,,
+\end{equation}
+with all quantities in atomic units. This means that $\tilde E(\w)$ from \plf{} is in atomic units, which are
+$\mathcal{E}_{au} t_{au}=1.24384\cdot10^{-5}\ $V\,s/m. According to the
+\href{http://en.wikipedia.org/wiki/Fourier_transform}{Plancherel theorem}, we have
+\begin{equation}
+\Int_{-\infty}^{\infty} E^2(t) \mathrm{d}t = \Int_{-\infty}^{\infty} |\tilde E(\w)|^2 \mathrm{d}\w \,
+\end{equation}
+where we have used that $E(t)$ is real, i.e., $|E(t)|^2=E^2(t)$.
+We use this to define a ``spectral intensity'' $\tilde I(\w)$
+\begin{equation}
+\rho_{tot} = \Int_{-\infty}^{\infty} I(t) \mathrm{d}t = \frac{\epsilon_0 c}{2} \Int_{-\infty}^{\infty} E^2(t) \mathrm{d}t = \frac{\epsilon_0 c}{2} \Int_{-\infty}^{\infty} |\tilde E(\w)|^2 \mathrm{d}\w = \Int_{-\infty}^{\infty} \tilde I(\w) \mathrm{d}\w\,
+\end{equation}
+where $\rho_{tot}$ is the total energy density (per area) of the pulse (units, e.g., J/cm$^2$). Therefore, the spectral intensity $\tilde I(\w)$ 
+is given by $\tilde I(\w) = 2.05338\cdot10^{-17} |\tilde E_{au}(\w)|^2\ $J\,s/cm$^2$, where $\tilde E_{au}(\w)$ is the output of \plf{}.
+In atomic units, the spectral intensity is $\tilde I(\w) = 5.45249\,|E_{au}(\w)|^2\ $a.u., where ``a.u.'' here is Hartree $t_{au}/a_0^2$.
+
+Finally, note that the integral in frequency $\w$ runs from $-\infty$ to $\infty$, while \plf{} by default only outputs $\w>0$. To perform the full integral, you can use that $\tilde E(-\w)=\tilde E^*(\w)$ since $E(t)$ is real, so that $\tilde I(-\w)=\tilde I(\w)$ and $\int_{-\infty}^\infty \tilde I(\w) \mathrm{d}\w = 2 \int_0^\infty \tilde I(\w) \mathrm{d}\w$. So it would be possible to add a factor $2$ to $\tilde I(\w)$ and have it defined only for $\w>0$.
+
+\end{document}
