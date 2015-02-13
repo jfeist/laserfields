@@ -48,7 +48,7 @@ module laserfields_module
      real(dp) :: form_exponent = 1.d0
      !> linear temporal chirp rate, in units of omega_0/as
 
-     !> &omega; = &omega;<sub>0</sub> (1 + linear_chirp_rate_w0 (t-t<sub>peak</sub>))
+     !> &omega;(t) = &omega;<sub>0</sub> (1 + linear_chirp_rate_w0 (t-t<sub>peak</sub>))
      !> e.g. for a value of 1.d-3, the frequency will change by &omega; over 1000 as.
      !> Since the carrier wave should not have negative frequencies, you must take care that the chirp is not too large.
      real(dp) :: linear_chirp_rate_w0as = 0.d0
@@ -105,15 +105,15 @@ module laserfields_module
      module procedure lf_get_ZL
   end interface
   private :: laserfields_get_ZL, lf_get_ZL
-  !> Return the fourier transform E(&omega;). if called with a type(laserfield) argument,
-  !> gets E(&omega;) for just that one field, otherwise gets sum of all fields in all_laserfields
+  !> Return the fourier transform \f$ \tilde E(\omega) = 1/\sqrt{2\pi} \int \exp(-i\omega t) E(t) \mathrm{d}t\f$.
+  !> if called with a type(laserfield) argument, gets \f$\tilde E(\omega)\f$ for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_EL_fourier_transform
      module procedure laserfields_get_EL_fourier_transform
      module procedure lf_get_EL_fourier_transform
   end interface
   private :: laserfields_get_EL_fourier_transform, lf_get_EL_fourier_transform
-  !> Return the fourier transform A(&omega;). if called with a type(laserfield) argument,
-  !> gets A(&omega;) for just that one field, otherwise gets sum of all fields in all_laserfields
+  !> Return the fourier transform \f$ \tilde A(\omega) = 1/\sqrt{2\pi} \int \exp(-i\omega t) A(t) \mathrm{d}t = i\tilde E(\omega)/\omega\f$.
+  !> if called with a type(laserfield) argument, gets \f$\tilde A(\omega)\f$ for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_AL_fourier_transform
      module procedure laserfields_get_AL_fourier_transform
      module procedure lf_get_AL_fourier_transform
@@ -1138,7 +1138,7 @@ contains
   !-------------------------------------------------------------------------
   complex(dpc) function lf_get_EL_fourier_transform(lf,omega) result(ELFT)
     ! analytically determine the fourier transform of the defined laser fields
-    ! determined as Int exp(-i*omega*t) E(t) dt
+    ! determined as 1/sqrt(2pi) Int exp(-i*omega*t) E(t) dt
     use atomic_units
     type(laserfield), intent(in) :: lf
     real(dp), intent(in) :: omega
@@ -1181,7 +1181,7 @@ contains
   !-------------------------------------------------------------------------
   character(4000) function lf_get_EL_fourier_transform_string(lf) result(Ff)
     ! analytically determine the fourier transform of the defined laser fields
-    ! determined as Int exp(-i*omega*t) E(t) dt
+    ! determined as 1/sqrt(2pi) Int exp(-i*omega*t) E(t) dt
     use atomic_units
     use laserfields_miscfuncs
     type(laserfield), intent(in) :: lf
@@ -1223,10 +1223,10 @@ contains
   !-------------------------------------------------------------------------
   complex(dpc) function lf_get_AL_fourier_transform(lf,omega) result(ALFT)
     ! analytically determine the fourier transform of the defined laser fields
-    ! determined as Int exp(-i*w*t) A(t) dt
+    ! determined as 1/sqrt(2pi) Int exp(-i*w*t) A(t) dt
     ! use connection with electric field:
-    ! A(t)   = Int exp(i w t)       A(w) dw
-    ! -dA/dt = Int exp(i w t) (-iw) A(w) dw = E(t) = Int exp(i w t) E(omega) dw
+    ! A(t)   = 1/sqrt(2pi) Int exp(i w t)       A(w) dw
+    ! -dA/dt = 1/sqrt(2pi) Int exp(i w t) (-iw) A(w) dw = E(t) = 1/sqrt(2pi) Int exp(i w t) E(omega) dw
     ! --> E(omega) = (-iw) A(omega)
     type(laserfield), intent(in) :: lf
     real(dp), intent(in) :: omega
