@@ -1,4 +1,4 @@
-\documentclass[letterpaper,aps,pra,10pt,superscriptaddress,showpacs,floats,nofootinbib]{revtex4-1}
+\documentclass[letterpaper,aps,pra,10pt,floats,nofootinbib,notitlepage]{revtex4-1}
 \usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{subfigure}
@@ -9,22 +9,13 @@
 
 \newcommand{\titlestr}{Fourier transform of chirped pulses}
 
-\definecolor{rltred}{rgb}{0.75,0,0}
-\definecolor{rltgreen}{rgb}{0,0.5,0}
-\definecolor{rltblue}{rgb}{0,0,0.75}
 \hypersetup{colorlinks,%
 hypertexnames=true,%
-pdfauthor={J. Feist},%
+pdfauthor={Johannes Feist},%
 pdftitle={\titlestr},%
-pdfview=FitH,%
-pdfstartview=FitH,%
-pdfpagemode=UseNone,%
-bookmarksopen=true,%
-bookmarksnumbered=true,%
-pdfhighlight=/I,%
-linkcolor=rltred,%
-citecolor=rltgreen,%
-linktocpage=true}
+linkcolor=blue,%
+citecolor=blue,%
+urlcolor=blue}
 
 \newcommand{\w}{\omega}
 \DeclareMathOperator{\erf}{erf}
@@ -33,12 +24,11 @@ linktocpage=true}
 
 \title{\titlestr}
 \author{Johannes~Feist}
-\email{johannes.feist@uam.es}
+\email{johannes.feist@gmail.com}
 \affiliation{Departamento de Física Teórica de la Materia Condensada, Universidad Autónoma de Madrid}
 \date{\today}
-\pacs{42.65.Ky, 78.67.Bf, 73.20.Mf}
 
-%\maketitle
+\maketitle
 
 We calculate the Fourier transform of chirped pulses for a few pulse shapes. In the present context, we define
 chirped pulses by a linear dependence of the instantaneous frequency on time, i.e.\ $\w(t) = \w_0 + c t$.
