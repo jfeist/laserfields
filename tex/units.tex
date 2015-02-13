@@ -9,9 +9,11 @@
 
 \newcommand{\w}{\omega}
 \newcommand{\Int}{\int\limits}
-\newcommand{\plf}{\texttt{plotlaserfourier}}
+\newcommand{\lf}{\texttt{laserfields}}
+\newcommand{\plotlf}{\texttt{plotlaserfourier}}
+\newcommand{\printlf}{\texttt{printlaserfourier}}
 \DeclareMathOperator{\erf}{erf}
-\newcommand{\titlestr}{Units of Fourier-transformed fields in \plf{}}
+\newcommand{\titlestr}{Units of Fourier-transformed fields in \lf{}}
 
 \definecolor{rltred}{rgb}{0.75,0,0}
 \definecolor{rltgreen}{rgb}{0,0.5,0}
@@ -34,7 +36,7 @@ urlcolor=blue}
 
 \maketitle
 
-We discuss the units of the Fourier transform of the laser fields as calculated by \plf{}.
+We discuss the units of the Fourier transform of the laser fields as calculated in the \lf{} library and the included \plotlf{} and \printlf{} programs.
 
 The instantaneous intensity of an electric field is $I(t)=\frac{\epsilon_0 c}{2} E^2(t)$, which gives
 $I(t) = 3.50944\cdot10^{16}\,E_{au}^2(t)\ $W/m$^2$ if the electric field is given in atomic units, $E(t)=E_{au}(t) \mathcal{E}_{au}$ 
@@ -43,11 +45,11 @@ In atomic units, we have $I(t) = 5.45249\,E^2_{au}(t)\ $a.u., where ``a.u.'' her
 atomic unit of time $t_{au}=24.188\ $as, and Bohr radius $a_0= 5.29177\cdot10^{-11}\ $m.
 
 
-The Fourier transform returned by \plf{} is
+The Fourier transform as calculated in \lf{} is
 \begin{equation}
   \tilde E(\w) = \frac{1}{\sqrt{2\pi}} \Int_{-\infty}^\infty e^{-i \w t} E(t) \mathrm{d}t\,,
 \end{equation}
-with all quantities in atomic units. This means that $\tilde E(\w)$ from \plf{} is in atomic units, which are
+with all quantities in atomic units. This means that $\tilde E(\w)$ from \lf{} is in atomic units, which are
 $\mathcal{E}_{au} t_{au}=1.24384\cdot10^{-5}\ $V\,s/m. According to the
 \href{http://en.wikipedia.org/wiki/Fourier_transform}{Plancherel theorem}, we have
 \begin{equation}
@@ -59,9 +61,11 @@ We use this to define a ``spectral intensity'' $\tilde I(\w)$
 \rho_{tot} = \Int_{-\infty}^{\infty} I(t) \mathrm{d}t = \frac{\epsilon_0 c}{2} \Int_{-\infty}^{\infty} E^2(t) \mathrm{d}t = \frac{\epsilon_0 c}{2} \Int_{-\infty}^{\infty} |\tilde E(\w)|^2 \mathrm{d}\w = \Int_{-\infty}^{\infty} \tilde I(\w) \mathrm{d}\w\,
 \end{equation}
 where $\rho_{tot}$ is the total energy density (per area) of the pulse (units, e.g., J/cm$^2$). Therefore, the spectral intensity $\tilde I(\w)$ 
-is given by $\tilde I(\w) = 2.05338\cdot10^{-17} |\tilde E_{au}(\w)|^2\ $J\,s/cm$^2$, where $\tilde E_{au}(\w)$ is the output of \plf{}.
+is given by $\tilde I(\w) = 2.05338\cdot10^{-17} |\tilde E_{au}(\w)|^2\ $J\,s/cm$^2$, where $\tilde E_{au}(\w)$ is the output of, e.g., \plotlf{} or \printlf{}.
 In atomic units, the spectral intensity is $\tilde I(\w) = 5.45249\,|E_{au}(\w)|^2\ $a.u., where ``a.u.'' here is Hartree $t_{au}/a_0^2$.
+Note that the prefactors in $I(t)$ and $\tilde I(\w)$ are the same in atomic units, as it is simply $\epsilon_0 c/2$ in atomic units ($4\pi\epsilon_0=1, c=1/\alpha$),
+with $\alpha\approx1/137.036$ the fine structure constant.
 
-Finally, note that the integral in frequency $\w$ runs from $-\infty$ to $\infty$, while \plf{} by default only outputs $\w>0$. To perform the full integral, you can use that $\tilde E(-\w)=\tilde E^*(\w)$ since $E(t)$ is real, so that $\tilde I(-\w)=\tilde I(\w)$ and $\int_{-\infty}^\infty \tilde I(\w) \mathrm{d}\w = 2 \int_0^\infty \tilde I(\w) \mathrm{d}\w$. So it would be possible to add a factor $2$ to $\tilde I(\w)$ and have it defined only for $\w>0$.
+Finally, note that the integral in frequency $\w$ runs from $-\infty$ to $\infty$, while \plotlf{} by default only outputs $\w>0$. To perform the full integral, you can use that $\tilde E(-\w)=\tilde E^*(\w)$ since $E(t)$ is real, so that $\tilde I(-\w)=\tilde I(\w)$ and $\int_{-\infty}^\infty \tilde I(\w) \mathrm{d}\w = 2 \int_0^\infty \tilde I(\w) \mathrm{d}\w$. So it would be possible to add a factor $2$ to $\tilde I(\w)$ and have it defined only for $\w>0$.
 
 \end{document}
