@@ -4,5 +4,10 @@
 *.bbl
 *.blg
 *.fls
+*.dvi
+*Notes.bib
 *.fdb_latexmk
 *.synctex.gz
+
+chirped_fourier.pdf
+units.pdf
