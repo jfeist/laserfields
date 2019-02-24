@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['unroll_5fphase',['unroll_phase',['../plotlaserfourier__alicia_8f90.html#addd6a7ebafd783b1c2183dc1a4a702f6',1,'plotlaserfourier_alicia.f90']]],
-  ['use_5fcontinued_5ffraction',['USE_CONTINUED_FRACTION',['../_faddeeva__c_8c.html#a164b067c74dd1cffc4b85663b6e09c44',1,'Faddeeva_c.c']]]
+  ['tdcs_5ffactor',['tdcs_factor',['../namespacelaserfields__module.html#aaee3dc5c51b4754e16834dc361dda641',1,'laserfields_module']]],
+  ['test_5flaserfields_2ef90',['test_laserfields.f90',['../test__laserfields_8f90.html',1,'']]],
+  ['tt',['tt',['../structlaserfields__module_1_1laserfield.html#a831e78c6db4b44b10bc347562b845c02',1,'laserfields_module::laserfield']]],
+  ['twopi',['twopi',['../namespacenrtype.html#aad24cece15c4998d0c697fa7c258e774',1,'nrtype']]],
+  ['tx',['tx',['../structlaserfields__module_1_1laserfield.html#a1ebf64abd858daa60b27ef2dcefc6599',1,'laserfields_module::laserfield']]]
 ];

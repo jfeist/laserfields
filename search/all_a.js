@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['n_5flaserfields',['n_laserfields',['../classlaserfields__module.html#a1496308414f83b696c928c70827e016b',1,'laserfields_module']]],
-  ['nan',['NaN',['../_faddeeva__c_8c.html#a953f667fb27fb68dd74a487d002b19b5',1,'Faddeeva_c.c']]],
-  ['nrtype',['nrtype',['../classnrtype.html',1,'']]],
-  ['nrtype_2ef90',['nrtype.f90',['../nrtype_8f90.html',1,'']]]
+  ['main',['main',['../test__laserfields_8f90.html#a8ec2266d83cd6c0b762cbcbc92c0af3d',1,'test_laserfields.f90']]],
+  ['make_5flaserfield',['make_laserfield',['../interfacelaserfields__module_1_1make__laserfield.html',1,'laserfields_module']]],
+  ['make_5flaserfield_5fdatafile',['make_laserfield_datafile',['../interfacelaserfields__module_1_1make__laserfield.html#a46907587201420334ee8e8446a703a1e',1,'laserfields_module::make_laserfield']]],
+  ['make_5flaserfield_5fparams',['make_laserfield_params',['../interfacelaserfields__module_1_1make__laserfield.html#a9f190a5a9f2480157f8a949df186beba',1,'laserfields_module::make_laserfield']]],
+  ['minimum_5fsteps_5fper_5flaser_5fperiod',['minimum_steps_per_laser_period',['../namespacelaserfields__module.html#a409c232bbdab9876c8dc98fc1afc5370',1,'laserfields_module']]]
 ];

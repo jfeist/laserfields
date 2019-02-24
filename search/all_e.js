@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['tdcs_5ffactor',['tdcs_factor',['../classlaserfields__module.html#aaee3dc5c51b4754e16834dc361dda641',1,'laserfields_module']]],
-  ['test_5flaserfields_2ef90',['test_laserfields.f90',['../test__laserfields_8f90.html',1,'']]],
-  ['tt',['tt',['../structlaserfields__module_1_1laserfield.html#a831e78c6db4b44b10bc347562b845c02',1,'laserfields_module::laserfield']]],
-  ['twopi',['twopi',['../classnrtype.html#aad24cece15c4998d0c697fa7c258e774',1,'nrtype']]],
-  ['tx',['tx',['../structlaserfields__module_1_1laserfield.html#a1ebf64abd858daa60b27ef2dcefc6599',1,'laserfields_module::laserfield']]]
+  ['readme',['README',['../md__r_e_a_d_m_e.html',1,'']]],
+  ['rampon',['rampon',['../structlaserfields__module_1_1laserfield.html#ad33a307afefc1c32a6d9d2ee3c8159ed',1,'laserfields_module::laserfield']]],
+  ['rampon_5fas',['rampon_as',['../structlaserfields__module_1_1laserfield.html#ac97ed13105c9c664c2898c7ddd058979',1,'laserfields_module::laserfield']]],
+  ['read_5flaserfield_5ffrom_5ffile',['read_laserfield_from_file',['../namespacelaserfields__module.html#a382639a7d5ecac3045b02be8c0a87dbb',1,'laserfields_module']]],
+  ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
 ];

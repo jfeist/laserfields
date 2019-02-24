@@ -1,10 +1,14 @@
 var searchData=
 [
-  ['inf',['Inf',['../_faddeeva__c_8c.html#a311d23688bfa914e83491178976adab9',1,'Faddeeva_c.c']]],
-  ['intensity_5fwcm2',['intensity_wcm2',['../structlaserfields__module_1_1laserfield.html#ab776179c9ac177088ffbd2628f59c366',1,'laserfields_module::laserfield']]],
-  ['interpolate',['interpolate',['../interfacelaserfields__miscfuncs_1_1interpolate.html',1,'laserfields_miscfuncs']]],
-  ['interpolate_5farray',['interpolate_array',['../interfacelaserfields__miscfuncs_1_1interpolate.html#a50aeb0cae3e0c546781f7c54e98766c8',1,'laserfields_miscfuncs::interpolate']]],
-  ['interpolate_5fsingle',['interpolate_single',['../interfacelaserfields__miscfuncs_1_1interpolate.html#ad47efad6b3e8eff23a7256ab201a7df0',1,'laserfields_miscfuncs::interpolate']]],
-  ['is_5fvecpot',['is_vecpot',['../structlaserfields__module_1_1laserfield.html#a17d3db8475bb34c274d57e69f95de585',1,'laserfields_module::laserfield']]],
-  ['iu',['iu',['../classnrtype.html#af7cd01fb94b99f1b4dc232c61fe0f2e6',1,'nrtype']]]
+  ['gaussian_5ftime_5fcutoff_5ffwhm',['gaussian_time_cutoff_fwhm',['../namespacelaserfields__module.html#ac6779fc5a00bcdb8a43cfaf27ab4e286',1,'laserfields_module']]],
+  ['get_5fal',['get_al',['../interfacelaserfields__module_1_1get__al.html',1,'laserfields_module']]],
+  ['get_5fal_5ffourier_5ftransform',['get_al_fourier_transform',['../interfacelaserfields__module_1_1get__al__fourier__transform.html',1,'laserfields_module']]],
+  ['get_5fel',['get_el',['../interfacelaserfields__module_1_1get__el.html',1,'laserfields_module']]],
+  ['get_5fel_5ffourier_5ftransform',['get_el_fourier_transform',['../interfacelaserfields__module_1_1get__el__fourier__transform.html',1,'laserfields_module']]],
+  ['get_5fel_5ffourier_5ftransform_5fstring',['get_el_fourier_transform_string',['../interfacelaserfields__module_1_1get__el__fourier__transform__string.html',1,'laserfields_module']]],
+  ['get_5funused_5funit',['get_unused_unit',['../namespacelaserfields__miscfuncs.html#a745ddcd0ffd8122f202e58e1b7d38891',1,'laserfields_miscfuncs']]],
+  ['get_5fzl',['get_zl',['../interfacelaserfields__module_1_1get__zl.html',1,'laserfields_module']]],
+  ['gnuplotstring',['gnuplotstring',['../interfacelaserfields__miscfuncs_1_1gnuplotstring.html',1,'laserfields_miscfuncs']]],
+  ['gnuplotstring_5fd',['gnuplotstring_d',['../interfacelaserfields__miscfuncs_1_1gnuplotstring.html#a6e1b345e56e8976bf7ecd6d797f51998',1,'laserfields_miscfuncs::gnuplotstring']]],
+  ['gnuplotstring_5fz',['gnuplotstring_z',['../interfacelaserfields__miscfuncs_1_1gnuplotstring.html#a638e78afb512ae8759ef98b96a73318d',1,'laserfields_miscfuncs::gnuplotstring']]]
 ];

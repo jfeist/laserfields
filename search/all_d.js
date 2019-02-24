@@ -1,7 +1,15 @@
 var searchData=
 [
-  ['rampon',['rampon',['../structlaserfields__module_1_1laserfield.html#ad33a307afefc1c32a6d9d2ee3c8159ed',1,'laserfields_module::laserfield']]],
-  ['rampon_5fas',['rampon_as',['../structlaserfields__module_1_1laserfield.html#ac97ed13105c9c664c2898c7ddd058979',1,'laserfields_module::laserfield']]],
-  ['read_5flaserfield_5ffrom_5ffile',['read_laserfield_from_file',['../classlaserfields__module.html#a382639a7d5ecac3045b02be8c0a87dbb',1,'laserfields_module']]],
-  ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
+  ['peak_5ftime',['peak_time',['../structlaserfields__module_1_1laserfield.html#ad8905813472280f9395ae047de30654f',1,'laserfields_module::laserfield']]],
+  ['peak_5ftime_5fas',['peak_time_as',['../structlaserfields__module_1_1laserfield.html#a014ccaeac571409b84752aea9a2a2cee',1,'laserfields_module::laserfield']]],
+  ['phase',['phase',['../namespacelaserfields__miscfuncs.html#a652dd6af065e73974626439c0e4ceb11',1,'laserfields_miscfuncs']]],
+  ['phase_5fpi',['phase_pi',['../structlaserfields__module_1_1laserfield.html#ab8818a363d06c17af15ef7b62aa022ab',1,'laserfields_module::laserfield']]],
+  ['pi',['pi',['../namespacenrtype.html#afeb4f64c684649f7e89b097233b761fc',1,'nrtype']]],
+  ['pio2',['pio2',['../namespacenrtype.html#a53f5a2fa9ba93029fc460126b8dd27d2',1,'nrtype']]],
+  ['plotlaserfield',['plotlaserfield',['../plotlaserfield_8f90.html#aa8f02469b1f0108c0f0f6feb1b47b6cf',1,'plotlaserfield.f90']]],
+  ['plotlaserfield_2ef90',['plotlaserfield.f90',['../plotlaserfield_8f90.html',1,'']]],
+  ['plotlaserfourier',['plotlaserfourier',['../plotlaserfourier_8f90.html#ae1b8f5a1141b426db7cd6e47877779ad',1,'plotlaserfourier.f90']]],
+  ['plotlaserfourier_2ef90',['plotlaserfourier.f90',['../plotlaserfourier_8f90.html',1,'']]],
+  ['printlaserfourier',['printlaserfourier',['../printlaserfourier_8f90.html#a33961420904e59ad6d34ed26bc59f70f',1,'printlaserfourier.f90']]],
+  ['printlaserfourier_2ef90',['printlaserfourier.f90',['../printlaserfourier_8f90.html',1,'']]]
 ];
