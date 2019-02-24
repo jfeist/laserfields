@@ -10,8 +10,8 @@ The main author is Johannes Feist (johannes.feist@gmail.com),
 with some contributions by Stefan Nagele and Renate Pazourek.
 If you publish work using it, please reference the web page, https://github.com/jfeist/laserfields.
 
-laserfields also includes a Fortran 95 version of the Faddeeva Package by Steven
-G. Johnson, available from http://jdj.mit.edu/wiki/index.php/Faddeeva_Package.
+laserfields also includes a Fortran interface (using Fortran C bindings) to the
+Faddeeva Package by Steven G. Johnson, available from http://jdj.mit.edu/wiki/index.php/Faddeeva_Package.
 
 Installation
 ------------
