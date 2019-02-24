@@ -30,6 +30,11 @@
 // Require C99 complex-number support
 #include <complex.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
+
 // compute w(z) = exp(-z^2) erfc(-iz) [ Faddeeva / scaled complex error func ]
 extern double complex Faddeeva_w(double complex z,double relerr);
 extern double Faddeeva_w_im(double x); // special-case code for Im[w(x)] of real x
@@ -55,5 +60,9 @@ extern double Faddeeva_erfc_re(double x); // special case for real x
 // compute Dawson(z) = sqrt(pi)/2  *  exp(-z^2) * erfi(z)
 extern double complex Faddeeva_Dawson(double complex z, double relerr);
 extern double Faddeeva_Dawson_re(double x); // special case for real x
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif // FADDEEVA_H
