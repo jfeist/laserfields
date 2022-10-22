@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jfeist/laserfields.svg?branch=master)](https://travis-ci.org/jfeist/laserfields)
+[![Build Status](https://travis-ci.org/jfeist/laserfields.svg?branch=main)](https://travis-ci.org/jfeist/laserfields)
 
 laserfields
 ===========
@@ -29,10 +29,10 @@ and their Fourier transform.
 
 Documentation
 -------------
-Sample input files are in [test](https://github.com/jfeist/laserfields/tree/master/test),
-while [programs](https://github.com/jfeist/laserfields/tree/master/programs)
+Sample input files are in [test](https://github.com/jfeist/laserfields/tree/main/test),
+while [programs](https://github.com/jfeist/laserfields/tree/main/programs)
 contains small programs using the library.
-For new users, [programs/test_laserfields.f90](https://github.com/jfeist/laserfields/tree/master/programs/test_laserfields.f90)
+For new users, [programs/test_laserfields.f90](https://github.com/jfeist/laserfields/tree/main/programs/test_laserfields.f90)
 is probably a good starting point to see how to use the library.
 
 Two short notes are provided: one discusses the [units of the Fourier transformed fields](https://jfeist.github.io/laserfields/units.pdf),
