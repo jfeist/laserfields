@@ -1,0 +1,23 @@
+################### laser  1 parameters ####################
+   laserfield                   =  sin2
+   is_vecpot                    =  T
+   intensity_Wcm2               =  1.d15
+   lambda_nm                    =  20.0
+   peak_time_as                 =  100.0
+   duration_as                  =  1000.0
+   rampon_as                    =  0.0
+   phase_pi                     =  -.3
+   linear_chirp_rate_w0as       =  -1e-20
+   laserfield_end               =  1
+
+################### laser  2 parameters ####################
+   laserfield                   =  sin2
+   is_vecpot                    =  T
+   intensity_Wcm2               =  1.d14
+   lambda_nm                    =  40.0
+   peak_time_as                 =  -500.0
+   duration_as                  =  2000.0
+   rampon_as                    =  0.0
+   phase_pi                     =  -.3
+   linear_chirp_rate_w0as       =  0
+   laserfield_end               =  1
