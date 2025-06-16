@@ -67,9 +67,9 @@ set ylabel '|F({/Symbol w})|^2'
 set y2label '{/Symbol f/p}'
 set xlabel '{/Symbol w} [a.u.]'
 plot [0:9][1e-10:1] \
-     'laserfields_test3_fourier.dat' u 1:(abz(2)**2)               t '|F_{ana}({/Symbol w})|^2' ls 1 lw 8,\
-     'laserfields_test3_numerical_fourier.dat' u ($1/ev_au):($2/2) t '|F_{num}({/Symbol w})|^2' ls 5,\
-     'laserfields_test3_fourier.dat' u 1:(unroll_phase(pha(2))/pi)  axis x1y2 t 'arg(F_{ana}({/Symbol w}))' ls 3 lw 8,\
-     'laserfields_test3_numerical_fourier.dat' u ($1/ev_au):($3/pi-2) axis x1y2 t 'arg(F_{num}({/Symbol w}))' ls 2
+     'laserfields_test3_fourier.dat'           u 1:(abz(2)**2) t '|F_{ana}({/Symbol w})|^2' ls 1 lw 8,\
+     'laserfields_test3_numerical_fourier.dat' u 1:(abz(2)**2) t '|F_{num}({/Symbol w})|^2' ls 5,\
+     'laserfields_test3_fourier.dat'           u 1:(unroll_phase(pha(2))/pi) axis x1y2 t 'arg(F_{ana}({/Symbol w}))' ls 3 lw 8,\
+     'laserfields_test3_numerical_fourier.dat' u 1:(unroll_phase(pha(2))/pi) axis x1y2 t 'arg(F_{num}({/Symbol w}))' ls 2
 unset log y
 set output; system('ps2pdf '.outfi.' && rm '.outfi)

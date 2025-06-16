@@ -1,0 +1,6 @@
+all : laserfields_test3_numerical_fourier.dat
+
+%_numerical_fourier.dat : %.in ${PLOTLAS} simple_fourier.py
+	${PLOTLAS} --dt 1e-2 $< | python simple_fourier.py > $@
+
+include Makefile
