@@ -10,16 +10,15 @@ unroll_phase(phi)=($0==0? (ACCPHI=0,OLDPHI=0) : 1, DELPHI=phi-OLDPHI-ACCPHI,\
                    (abs(DELPHI+2*pi)<abs(DELPHI) ? (ACCPHI=ACCPHI-2*pi, DELPHI=DELPHI+2*pi) : 1), \
                    OLDPHI=OLDPHI+DELPHI)
 
-# set gnuplot to automatically use the user-defined styles
-set style increment user
-set style line 1  lt 1  lw 2 pt 9  ps 2   lc rgb 'blue'
-set style line 2  lt 2  lw 2 pt 5  ps 1.5 lc rgb 'red'
-set style line 3  lt 3  lw 2 pt 7  ps 2   lc rgb 'dark-green'
-set style line 4  lt 4  lw 2 pt 11 ps 2   lc rgb 'dark-violet'
-set style line 5  lt 5  lw 2 pt 13 ps 2   lc rgb '#ff8c00' # old dark-orange - changed by gnuplot in Nov 2008!
-set style line 6  lt 6  lw 2 pt 15 ps 2   lc rgb 'dark-red'
-set style line 7  lt 7  lw 2 pt 3  ps 2   lc rgb 'forest-green'
-set style line 8  lt 8  lw 2 pt 4  ps 2   lc rgb 'royalblue'
+set linetype 1 lw 2 pt 9  ps 2   lc rgb 'blue'
+set linetype 2 lw 2 pt 5  ps 1.5 lc rgb 'red'
+set linetype 3 lw 2 pt 7  ps 2   lc rgb 'dark-green'
+set linetype 4 lw 2 pt 11 ps 2   lc rgb 'dark-violet'
+set linetype 5 lw 2 pt 13 ps 2   lc rgb '#ff8c00' # old dark-orange - changed by gnuplot in Nov 2008!
+set linetype 6 lw 2 pt 15 ps 2   lc rgb 'dark-red'
+set linetype 7 lw 2 pt 3  ps 2   lc rgb 'forest-green'
+set linetype 8 lw 2 pt 4  ps 2   lc rgb 'royalblue'
+set linetype cycle 8
 
 set tics front
 set style data line
@@ -28,7 +27,11 @@ set grid
 
 set key top left maxrows 1
 #set term pdfcairo enh solid size 18cm,14cm; outfi='laserfields_tests.pdf'; set out outfi
-set term postscript color enhanced solid '' 10; outfi='laserfields_tests.ps'; set output outfi
+
+set term postscript color enhanced solid '' 10
+outfi='laserfields_tests.ps'
+set output outfi
+
 set lmargin 8
 set multiplot layout 4,1 title 'laser\_fields\_test1.in: different pulse shapes'
 plot 'laserfields_test1_fields.dat' u 1:2 t 'E(t)'
