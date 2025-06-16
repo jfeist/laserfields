@@ -655,8 +655,23 @@ contains
   complex(dpc) function expiatbt2_intT(a,b,T) result(res)
     use faddeeva, ONLY : erf
     real(dp), intent(in) :: a, b, T
-    res = erf((a-b*T)/sqrt(4*IU*b)) - erf((a+b*T)/sqrt(4*IU*b))
-    res = res * (-IU/sqrt(8*IU*b)) * exp(-IU*a**2/(4*b))
+    real(dp) :: aT
+    complex(dpc) :: x1
+
+    if (abs(b*T**2) <= 1e-5) then
+      ! use first-order expansion for small b to avoid numerical errors
+      aT = a * T
+      if (abs(aT) < 1e-8) then
+         ! avoid numerical errors for small aT
+         res = (1 + IU/12 * b*T**2 - b*T**2/160) * T / sqrt(TWOPI)
+      end if
+      x1 = 2*IU * b / a**2
+      res = x1 * cos(aT / 2) + (2 - 2*x1 + 0.5*IU * b*T**2) * sin(aT / 2) / aT
+      res = res * T / sqrt(TWOPI)
+    else
+      res = erf((a-b*T)/sqrt(4*IU*b)) - erf((a+b*T)/sqrt(4*IU*b))
+      res = res * (-IU/sqrt(8*IU*b)) * exp(-IU*a**2/(4*b))
+    end if
   end function expiatbt2_intT
   !---------------------------------------------------------------------------
   character(1000) function lf_envelope_fourier_string(lf,omegastr) result(val)
