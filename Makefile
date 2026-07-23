@@ -35,11 +35,11 @@ lib: ${LIB} ${LIBMOD}
 progs: ${PROGS}
 
 test: progs
-	${MAKE} -C test
+	${MAKE} -C test FC='${FC}' FCFLAGS='${FCFLAGS}'
 
 clean:
 	${RM} ${LIB} ${LIBMOD} src/*.o src/*.mod programs/*.o bin/*
-	${MAKE} -C test clean
+	${MAKE} -C test clean FC='${FC}' FCFLAGS='${FCFLAGS}'
 
 ${LIB}    : ${F90SRCS:.f90=.o} ${CSRCS:.c=.o}
 ${LIBMOD} : ${LIBMOD:lib/%=src/%}

@@ -24,8 +24,11 @@ and `-L${LASERFIELDS_DIRECTORY}/lib -llaserfields` to the linking.
 
 To also compile the provided programs, do `make progs`.
 
-`make test` (requires a recent version of gnuplot) produces test/laserfields_tests.pdf, which shows some sample fields
-and their Fourier transform.
+`make test` compiles and runs a Fortran test program that checks time-domain field values, positive-frequency parts,
+and reconstruction identities for representative laser fields, and also produces `test/laserfields_tests.pdf`
+with sample fields and their Fourier transform (requires a recent version of gnuplot).
+
+You can also generate just the plot-based output via `make -C test plot`.
 
 Documentation
 -------------

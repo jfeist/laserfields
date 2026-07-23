@@ -98,6 +98,22 @@ module laserfields_module
      module procedure lf_get_AL
   end interface
   private :: laserfields_get_AL, lf_get_AL
+  !> Return the positive-frequency part of the electric field E^(+)(t).
+  !> if called with a type(laserfield) argument,
+  !> gets E^(+)(t) for just that one field, otherwise gets sum of all fields in all_laserfields
+  interface get_EL_posfreq
+     module procedure laserfields_get_EL_posfreq
+     module procedure lf_get_EL_posfreq
+  end interface
+  private :: laserfields_get_EL_posfreq, lf_get_EL_posfreq
+  !> Return the positive-frequency part of the vector potential A^(+)(t).
+  !> if called with a type(laserfield) argument,
+  !> gets A^(+)(t) for just that one field, otherwise gets sum of all fields in all_laserfields
+  interface get_AL_posfreq
+     module procedure laserfields_get_AL_posfreq
+     module procedure lf_get_AL_posfreq
+  end interface
+  private :: laserfields_get_AL_posfreq, lf_get_AL_posfreq
   !> Return the free-space displacement Z(t) of an electron. if called with a type(laserfield) argument,
   !> gets Z(t) for just that one field, otherwise gets sum of all fields in all_laserfields
   interface get_ZL
@@ -863,6 +879,68 @@ contains
     if (present(env_out)) env_out = env
   end function lf_get_AL
   !---------------------------------------------------------------------------
+  complex(dpc) function lf_get_EL_posfreq(lf,zeit,env_out) result(ELp)
+    use laserfields_miscfuncs
+    type(laserfield), intent(in) :: lf
+    real(dp), intent(in) :: zeit
+    real(dp), intent(out), optional :: env_out
+    real(dp) :: env, envpr
+    real(dp) :: omega
+    complex(dpc) :: osc, oscpr
+
+    if (lf%form == 'readin') then
+       STOP 'ERROR: positive-frequency decomposition not implemented for readin laser fields'
+    else
+       call lf_get_envelope(lf,zeit,env,envpr)
+
+       if (lf%omega==0) then ! No oscillation enclosed by envelope
+          ELp = env / 2.d0
+       else
+          call lf_get_omega(lf,zeit,omega,env)
+          osc = IU/2 * exp(-IU * (omega*(zeit-lf%peak_time) + PI*lf%phase_pi))
+
+          if (lf%is_vecpot) then
+             ! d(phase)/dt = 2*omega - lf%omega
+             oscpr = (2.d0*omega-lf%omega) * (-IU * osc)
+             ELp = -(env * oscpr + envpr * osc) / lf%omega
+          else ! describes electric field directly
+             ELp = env * osc
+          end if
+       end if
+    end if
+
+    if (present(env_out)) env_out = env
+  end function lf_get_EL_posfreq
+  !---------------------------------------------------------------------------
+  complex(dpc) function lf_get_AL_posfreq(lf,zeit,env_out) result(ALp)
+    type(laserfield), intent(in) :: lf
+    real(dp), intent(in) :: zeit
+    real(dp), intent(out), optional :: env_out
+    real(dp) :: env, envpr
+    real(dp) :: omega
+    complex(dpc) :: osc
+
+    if (lf%form == 'readin') then
+       STOP 'ERROR: positive-frequency decomposition not implemented for readin laser fields'
+    end if
+    if (.not.lf%is_vecpot) then
+       STOP 'ERROR: laser field is not given as a vector potential, cannot get positive-frequency A(t) analytically!'
+    end if
+
+    call lf_get_envelope(lf,zeit,env,envpr)
+
+    if (lf%omega==0) then ! No oscillation enclosed by envelope
+      ALp = env / 2.d0
+    else
+      call lf_get_omega(lf,zeit,omega,env)
+      osc = IU/2 * exp(-IU * (omega*(zeit-lf%peak_time) + PI*lf%phase_pi))
+      ! Divide out derivative of oscillation to ensure peak amplitude of E0 for electric field
+      ALp = env * osc / lf%omega
+    end if
+
+    if (present(env_out)) env_out = env
+  end function lf_get_AL_posfreq
+  !---------------------------------------------------------------------------
   real(dp) function lf_get_ZL(lf,zeit) result(ZL)
     use laserfields_miscfuncs
     type(laserfield), intent(inout) :: lf
@@ -914,6 +992,27 @@ contains
        if (present(partarr)) partarr(i_field) = part
     end do
   end function laserfields_get_AL
+   !---------------------------------------------------------------------------
+   complex(dpc) function laserfields_get_EL_posfreq(zeit) result(ELp)
+      real(dp), intent(in) :: zeit
+      integer :: i_field
+
+      ELp = 0
+      do i_field = 1, n_laserfields
+          ELp = ELp + get_EL_posfreq(all_laserfields(i_field),zeit)
+      end do
+
+   end function laserfields_get_EL_posfreq
+   !---------------------------------------------------------------------------
+   complex(dpc) function laserfields_get_AL_posfreq(zeit) result(ALp)
+      real(dp), intent(in) :: zeit
+      integer :: i_field
+
+      ALp = 0
+      do i_field = 1, n_laserfields
+          ALp = ALp + get_AL_posfreq(all_laserfields(i_field),zeit)
+      end do
+   end function laserfields_get_AL_posfreq
   !---------------------------------------------------------------------------
   real(dp) function laserfields_get_ZL(zeit) result(ZL)
     real(dp), intent(in) :: zeit

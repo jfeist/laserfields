@@ -10,7 +10,7 @@ module laserfields
   ! modules for "external" use
   use nrtype, ONLY : dp, dpc
   use laserfields_module, only : &
-       & laserfield, all_laserfields, n_laserfields, get_EL, get_AL, get_ZL, &
+      & laserfield, all_laserfields, n_laserfields, get_EL, get_AL, get_EL_posfreq, get_AL_posfreq, get_ZL, &
        & get_EL_fourier_transform, get_AL_fourier_transform, get_EL_fourier_transform_string, &
        & add_laserfield, make_laserfield, &
        & lf_get_envelope, lf_envelope_fourier, lf_envelope_fourier_string, lf_get_omega, &
