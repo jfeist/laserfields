@@ -223,12 +223,11 @@ contains
     if (lf%is_vecpot) then
        select case (lf%form)
        case('linear')
-          write(0,*) 'ERROR: Selected laser field cannot be given by A-envelope: ', trim(lf%form)
-          write(0,*) '       -> E-field would be discontinuous!'
+          write(0,*) 'ERROR: envelope ''linear'' cannot be used with is_vecpot=true, as the E-field would be discontinuous.'
           STOP 311
        case('sin_exp')
           if (lf%form_exponent <= 1.d0) then
-             write(0,*) 'ERROR: sin_exp with is_vecpot requires form_exponent > 1 for continuous E-field.'
+             write(0,*) 'ERROR: envelope ''sin_exp'' with is_vecpot=true requires form_exponent > 1 for continuous E-field.'
              write(0,*) '       form_exponent = ', lf%form_exponent
              STOP 312
           end if
