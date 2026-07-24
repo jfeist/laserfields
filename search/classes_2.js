@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['interpolate',['interpolate',['../interfacelaserfields__miscfuncs_1_1interpolate.html',1,'laserfields_miscfuncs']]]
+  ['faddeeva_5fw_0',['faddeeva_w',['../interfacefaddeeva_1_1faddeeva__w.html',1,'faddeeva']]],
+  ['faddeeva_5fw_5fim_1',['faddeeva_w_im',['../interfacefaddeeva_1_1faddeeva__w__im.html',1,'faddeeva']]]
 ];

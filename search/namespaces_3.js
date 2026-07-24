@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nrtype',['nrtype',['../namespacenrtype.html',1,'']]]
+  ['nrtype_0',['nrtype',['../namespacenrtype.html',1,'']]]
 ];
